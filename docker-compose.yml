@@ -1,0 +1,27 @@
+services:
+  transvase:
+    image: nginx:alpine
+    container_name: transvase
+    restart: unless-stopped
+    volumes:
+      # Relative to this file, i.e. the repository Dokploy clones.
+      - ./:/usr/share/nginx/html:ro
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    networks:
+      - dokploy-network
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=dokploy-network
+      - traefik.http.routers.transvase-web.rule=Host(`transvase.devanchor.company`)
+      - traefik.http.routers.transvase-web.entrypoints=web
+      - traefik.http.routers.transvase-web.middlewares=redirect-to-https@file
+      - traefik.http.routers.transvase-web.service=transvase
+      - traefik.http.routers.transvase-secure.rule=Host(`transvase.devanchor.company`)
+      - traefik.http.routers.transvase-secure.entrypoints=websecure
+      - traefik.http.routers.transvase-secure.tls.certresolver=letsencrypt
+      - traefik.http.routers.transvase-secure.service=transvase
+      - traefik.http.services.transvase.loadbalancer.server.port=80
+
+networks:
+  dokploy-network:
+    external: true

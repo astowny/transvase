@@ -1,0 +1,491 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Import et migration de contacts e-mail entre plateformes, sans perdre un contact ni abîmer votre délivrabilité.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Transvase">
+<meta property="og:description" content="Import et migration de contacts e-mail entre plateformes, sans perdre un contact ni abîmer votre délivrabilité.">
+<meta property="og:url" content="https://transvase.devanchor.company/">
+<meta property="og:locale" content="fr_FR">
+<link rel="canonical" href="https://transvase.devanchor.company/">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📥</text></svg>">
+<title>Transvase</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Serif:ital,wght@0,400;1,400&display=swap">
+
+<style>
+:root{
+  --ground:#F1F3F6;
+  --surface:#FFFFFF;
+  --surface-2:#E7EBF1;
+  --ink:#0F1A24;
+  --ink-soft:#3E4C5A;
+  --ink-faint:#6B7A89;
+  --line:#D3DAE3;
+  --signal:#1F4FD8;
+  --signal-deep:#143AA8;
+  --sand:#C98A2E;
+  --ok:#1B7F5A;
+  --stop:#B23A2E;
+  --shadow:0 1px 2px rgba(15,26,36,.05),0 18px 40px -30px rgba(15,26,36,.6);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0B1118;
+    --surface:#121A22;
+    --surface-2:#1A242E;
+    --ink:#E7EDF4;
+    --ink-soft:#AEBCC9;
+    --ink-faint:#778795;
+    --line:#25313D;
+    --signal:#7CA0FF;
+    --signal-deep:#A6BEFF;
+    --sand:#E5B569;
+    --ok:#4FC79B;
+    --stop:#E2806F;
+    --shadow:0 1px 2px rgba(0,0,0,.5),0 20px 46px -32px #000;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0B1118;
+  --surface:#121A22;
+  --surface-2:#1A242E;
+  --ink:#E7EDF4;
+  --ink-soft:#AEBCC9;
+  --ink-faint:#778795;
+  --line:#25313D;
+  --signal:#7CA0FF;
+  --signal-deep:#A6BEFF;
+  --sand:#E5B569;
+  --ok:#4FC79B;
+  --stop:#E2806F;
+  --shadow:0 1px 2px rgba(0,0,0,.5),0 20px 46px -32px #000;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--ground);color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;
+}
+h1,h2,h3{margin:0;letter-spacing:-.022em;text-wrap:balance;line-height:1.1;font-weight:700}
+.mono{font-family:"IBM Plex Mono",ui-monospace,Menlo,monospace}
+a{color:inherit}
+.wrap{max-width:1120px;margin:0 auto;padding:0 26px}
+.col{max-width:68ch}
+
+.eyebrow{font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--signal);font-weight:600;margin:0 0 14px}
+.eyebrow.mute{color:var(--ink-faint)}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  font-family:"IBM Plex Sans",sans-serif;font-weight:600;font-size:16px;
+  background:var(--signal);color:#fff;border:0;border-radius:8px;padding:13px 22px;
+  text-decoration:none;cursor:pointer;transition:background .15s ease,transform .12s ease;
+}
+:root[data-theme="dark"] .btn{color:#0B1118}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .btn{color:#0B1118}}
+.btn:hover{background:var(--signal-deep);transform:translateY(-1px)}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn.ghost:hover{background:var(--surface-2)}
+.btn.sm{padding:9px 15px;font-size:14px;border-radius:6px}
+:focus-visible{outline:2px solid var(--signal);outline-offset:2px}
+
+header.top{position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--ground) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+header.top .wrap{display:flex;align-items:center;gap:18px;height:62px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:17px;letter-spacing:-.02em}
+.brand svg{flex:none}
+header nav{margin-left:auto;display:flex;gap:24px;align-items:center;font-size:15px;font-weight:500}
+header nav a{text-decoration:none;color:var(--ink-soft)}
+header nav a:hover{color:var(--ink)}
+@media(max-width:720px){header nav a.hide-s{display:none}}
+
+section{padding:80px 0}
+@media(max-width:720px){section{padding:54px 0}}
+.rule{border-top:1px solid var(--line)}
+h2{font-size:clamp(27px,3.3vw,38px);margin-bottom:14px}
+.sub{color:var(--ink-faint);font-size:19px;margin:0 0 40px;max-width:62ch}
+
+/* hero */
+.hero{padding:70px 0 64px}
+.hero .wrap{display:grid;grid-template-columns:1.02fr .98fr;gap:52px;align-items:center}
+@media(max-width:960px){.hero .wrap{grid-template-columns:1fr;gap:40px}}
+.hero h1{font-size:clamp(36px,5vw,56px)}
+.hero h1 span{color:var(--signal)}
+.hero .lede{font-size:20px;color:var(--ink-soft);margin:20px 0 0;max-width:50ch}
+.cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.microcopy{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-faint);margin-top:18px;line-height:1.9}
+
+/* flow panel */
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);overflow:hidden}
+.panel-head{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line);background:var(--surface-2)}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--ok);flex:none;box-shadow:0 0 0 3px color-mix(in srgb,var(--ok) 22%,transparent)}
+.panel-head .t{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-soft);letter-spacing:.03em}
+.panel-head .r{margin-left:auto;font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--ink-faint)}
+table{width:100%;border-collapse:collapse;font-family:"IBM Plex Mono",monospace;font-size:12.5px}
+.tscroll{overflow-x:auto}
+th{text-align:left;font-weight:500;color:var(--ink-faint);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;padding:12px 16px;border-bottom:1px solid var(--line)}
+td{padding:11px 16px;border-bottom:1px solid var(--line);color:var(--ink-soft);white-space:nowrap;font-variant-numeric:tabular-nums}
+tr:last-child td{border-bottom:0}
+td.to{color:var(--ink);font-weight:500}
+.arrow{color:var(--signal)}
+.badge{font-size:10.5px;padding:2px 8px;border-radius:99px;font-weight:600;letter-spacing:.02em}
+.b-ok{background:color-mix(in srgb,var(--ok) 16%,transparent);color:var(--ok)}
+.b-fix{background:color-mix(in srgb,var(--sand) 20%,transparent);color:var(--sand)}
+.b-out{background:color-mix(in srgb,var(--stop) 16%,transparent);color:var(--stop)}
+.panel-foot{padding:14px 16px;font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-faint);border-top:1px solid var(--line);background:var(--surface-2)}
+.panel-foot b{color:var(--ok);font-weight:600}
+
+/* logos strip */
+.strip{background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:22px 0}
+.strip .wrap{display:flex;flex-wrap:wrap;gap:12px 34px;align-items:center;font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--ink-faint);letter-spacing:.04em}
+.strip b{color:var(--ink-soft);font-weight:500}
+
+/* pain */
+.pains{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+@media(max-width:900px){.pains{grid-template-columns:1fr}}
+.pain{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:24px}
+.pain .cost{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--stop);letter-spacing:.1em;text-transform:uppercase;font-weight:600;display:block;margin-bottom:12px}
+.pain h3{font-size:18px;margin-bottom:9px}
+.pain p{margin:0;color:var(--ink-soft);font-size:16px}
+
+/* steps as pipeline */
+.pipe{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface)}
+@media(max-width:900px){.pipe{grid-template-columns:1fr}}
+.pipe > div{padding:28px 24px;border-right:1px solid var(--line);position:relative}
+.pipe > div:last-child{border-right:0}
+@media(max-width:900px){.pipe > div{border-right:0;border-bottom:1px solid var(--line)}.pipe > div:last-child{border-bottom:0}}
+.pipe .st{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.14em;color:var(--signal);text-transform:uppercase;display:block;margin-bottom:14px}
+.pipe h3{font-size:19px;margin-bottom:10px}
+.pipe p{margin:0;color:var(--ink-soft);font-size:16px}
+
+/* features */
+.feats{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+@media(max-width:800px){.feats{grid-template-columns:1fr}}
+.feat{background:var(--surface);padding:26px 24px}
+.feat h3{font-size:17.5px;margin-bottom:8px;display:flex;align-items:center;gap:10px}
+.feat h3::before{content:"";width:7px;height:7px;background:var(--signal);border-radius:2px;flex:none}
+.feat p{margin:0;color:var(--ink-soft);font-size:16px}
+
+/* proof */
+.proofs{display:grid;grid-template-columns:1.3fr 1fr;gap:20px}
+@media(max-width:900px){.proofs{grid-template-columns:1fr}}
+.testi{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:28px}
+.testi blockquote{margin:0 0 18px;font-family:"IBM Plex Serif",Georgia,serif;font-size:21px;line-height:1.5}
+.testi .who{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-faint);line-height:1.8}
+.stats{display:grid;gap:20px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:22px}
+.stat .n{font-size:36px;font-weight:700;letter-spacing:-.03em;color:var(--signal);font-variant-numeric:tabular-nums;line-height:1}
+.stat .l{font-size:15px;color:var(--ink-soft);margin-top:8px}
+
+/* pricing */
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;align-items:start}
+@media(max-width:900px){.plans{grid-template-columns:1fr}}
+.plan{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:26px;display:flex;flex-direction:column;gap:16px}
+.plan.hi{border-color:var(--signal);box-shadow:var(--shadow)}
+.plan h3{font-size:20px}
+.plan .p{font-size:34px;font-weight:700;letter-spacing:-.03em;line-height:1}
+.plan .p small{display:block;font-family:"IBM Plex Mono",monospace;font-size:11.5px;font-weight:400;color:var(--ink-faint);margin-top:9px;letter-spacing:.03em}
+.plan ul{list-style:none;margin:0;padding:0;display:grid;gap:9px;font-size:15.5px;color:var(--ink-soft)}
+.plan li{padding-left:20px;position:relative}
+.plan li::before{content:"→";position:absolute;left:0;color:var(--signal);font-family:"IBM Plex Mono",monospace;font-size:13px}
+.plan .btn{margin-top:auto}
+
+/* faq */
+details{border-bottom:1px solid var(--line);padding:17px 0}
+summary{font-weight:600;font-size:17.5px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:18px;align-items:center}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-family:"IBM Plex Mono",monospace;color:var(--signal);font-size:19px;flex:none}
+details[open] summary::after{content:"–"}
+details p{margin:11px 0 0;color:var(--ink-soft);max-width:70ch;font-size:16.5px}
+
+/* final */
+.final{background:var(--surface);border-top:1px solid var(--line)}
+.final .wrap{display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:start}
+@media(max-width:900px){.final .wrap{grid-template-columns:1fr;gap:34px}}
+form{background:var(--ground);border:1px solid var(--line);border-radius:12px;padding:26px;display:grid;gap:15px}
+label{display:grid;gap:6px;font-size:14px;font-weight:600}
+input,select,textarea{font-family:"IBM Plex Sans",sans-serif;font-size:16px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:7px;padding:11px 12px;width:100%}
+textarea{min-height:80px;resize:vertical}
+.hint{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--ink-faint);line-height:1.8}
+.checks{display:grid;gap:14px;margin-top:24px}
+.checks div{padding-left:25px;position:relative;color:var(--ink-soft);font-size:16.5px}
+.checks div::before{content:"✓";position:absolute;left:0;top:1px;color:var(--ok);font-family:"IBM Plex Mono",monospace;font-size:14px;font-weight:600}
+
+footer{border-top:1px solid var(--line);padding:32px 0;font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-faint);display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;line-height:1.9}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <span class="brand">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 4h6l3 6 3-6h2M3 16h6l3-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Transvase
+    </span>
+    <nav>
+      <a href="#comment" class="hide-s">Comment ça marche</a>
+      <a href="#sources" class="hide-s">Sources</a>
+      <a href="#tarifs">Tarifs</a>
+      <a href="#essai" class="btn sm">Tester gratuitement</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <div>
+      <p class="eyebrow">Import et migration de contacts e-mail</p>
+      <h1>Changez d'outil d'e-mailing <span>sans perdre un seul contact.</span></h1>
+      <p class="lede">Transvase récupère vos contacts depuis n'importe quel fichier ou outil, nettoie les adresses mortes, fait correspondre vos champs tout seul, et les dépose dans votre nouvelle plateforme. Vous relisez, vous validez, c'est importé.</p>
+      <div class="cta-row">
+        <a href="#essai" class="btn">Importer mes 500 premiers contacts</a>
+        <a href="#comment" class="btn ghost">Voir un import en 90 secondes</a>
+      </div>
+      <p class="microcopy">Aucune carte bancaire · Import annulable tant que vous n'avez pas validé<br>Vos fichiers sont supprimés de nos serveurs 72 h après l'import.</p>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head">
+        <span class="dot" aria-hidden="true"></span>
+        <span class="t">contacts-2019-2026.csv → Brevo</span>
+        <span class="r">4 812 lignes lues</span>
+      </div>
+      <div class="tscroll">
+        <table>
+          <thead><tr><th>Colonne du fichier</th><th></th><th>Champ de destination</th><th>État</th></tr></thead>
+          <tbody>
+            <tr><td>Adresse mail</td><td class="arrow">→</td><td class="to">EMAIL</td><td><span class="badge b-ok">reconnu</span></td></tr>
+            <tr><td>Prénom / Nom</td><td class="arrow">→</td><td class="to">FIRSTNAME + LASTNAME</td><td><span class="badge b-fix">séparé</span></td></tr>
+            <tr><td>Tel. portable</td><td class="arrow">→</td><td class="to">SMS <span style="opacity:.6">(+33)</span></td><td><span class="badge b-fix">reformaté</span></td></tr>
+            <tr><td>Date inscription</td><td class="arrow">→</td><td class="to">OPT_IN_DATE</td><td><span class="badge b-ok">reconnu</span></td></tr>
+            <tr><td>jean.dupont@wanadooo.fr</td><td class="arrow">→</td><td class="to">wanadoo.fr</td><td><span class="badge b-fix">corrigé</span></td></tr>
+            <tr><td>127 adresses en double</td><td class="arrow">→</td><td class="to">fusionnées</td><td><span class="badge b-ok">nettoyé</span></td></tr>
+            <tr><td>309 adresses inexistantes</td><td class="arrow">→</td><td class="to">écartées</td><td><span class="badge b-out">bloqué</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="panel-foot"><b>4 376 contacts prêts</b> · 436 écartés avec le motif · aucun envoi tant que vous n'avez pas cliqué</div>
+    </div>
+  </div>
+</div>
+
+<div class="strip">
+  <div class="wrap">
+    <span><b>Sources lues :</b> CSV, Excel, Google Sheets, Outlook, Gmail, vCard</span>
+    <span><b>Destinations :</b> Brevo · Mailchimp · Klaviyo · HubSpot · Sendinblue · Odoo · webhook</span>
+  </div>
+</div>
+
+<section id="probleme">
+  <div class="wrap">
+    <p class="eyebrow mute">Pourquoi c'est douloureux</p>
+    <h2>Un import raté ne se voit qu'après l'envoi. C'est trop tard.</h2>
+    <p class="sub">Le fichier passe, la plateforme affiche « importé », et la campagne part avec 900 « Bonjour {PRENOM} » et un taux de rebond qui abîme votre réputation d'expéditeur pour des mois.</p>
+    <div class="pains">
+      <div class="pain">
+        <span class="cost">Coût : votre délivrabilité</span>
+        <h3>Les adresses mortes font sonner l'alarme</h3>
+        <p>Au-delà de 3 % de rebonds, les fournisseurs de messagerie basculent vos envois en indésirables — y compris vers vos bons clients. Un fichier de 2019 en contient souvent 10 %.</p>
+      </div>
+      <div class="pain">
+        <span class="cost">Coût : une journée entière</span>
+        <h3>Le rapprochement des colonnes à la main</h3>
+        <p>« Mail », « e-mail », « Courriel », « Adresse électronique ». Trois exports, trois formats, et personne dans l'équipe qui veut s'en occuper.</p>
+      </div>
+      <div class="pain">
+        <span class="cost">Coût : votre crédibilité</span>
+        <h3>Les doublons qui écrivent deux fois</h3>
+        <p>Le même client reçoit la promotion en double, avec deux prénoms différents. C'est le genre de détail qui fait se désabonner un habitué.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="comment" class="rule">
+  <div class="wrap">
+    <p class="eyebrow">Comment ça marche</p>
+    <h2>Trois étapes, et rien ne part sans votre accord</h2>
+    <p class="sub">Le fonctionnement tient en une phrase : on vous montre exactement ce qui va être importé, ligne par ligne, avant de toucher à quoi que ce soit.</p>
+    <div class="pipe">
+      <div>
+        <span class="st">1 · Déposer</span>
+        <h3>Votre fichier, tel qu'il est</h3>
+        <p>Glissez un CSV, un Excel, un export Outlook ou connectez directement votre ancienne plateforme. Séparateurs exotiques, accents cassés et colonnes vides sont gérés sans que vous ayez à y toucher.</p>
+      </div>
+      <div>
+        <span class="st">2 · Vérifier</span>
+        <h3>La correspondance vous est proposée</h3>
+        <p>Les colonnes sont reconnues automatiquement, les téléphones remis au format international, les fautes de domaine courantes corrigées, les doublons fusionnés. Vous corrigez ce que vous voulez d'un clic.</p>
+      </div>
+      <div>
+        <span class="st">3 · Importer</span>
+        <h3>Vous validez, on transvase</h3>
+        <p>Les contacts partent vers votre plateforme avec leurs listes et leurs étiquettes. Un rapport nomme chaque adresse écartée et pourquoi. Une annulation remet tout en état pendant 7 jours.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="sources" class="rule">
+  <div class="wrap">
+    <p class="eyebrow">Ce que fait Transvase que votre plateforme ne fait pas</p>
+    <h2>Le travail ennuyeux, fait correctement</h2>
+    <p class="sub"></p>
+    <div class="feats">
+      <div class="feat"><h3>Vérification des adresses avant envoi</h3><p>Chaque adresse est contrôlée auprès du serveur destinataire. Les boîtes fermées et les pièges à spam sont écartés avant d'entrer dans votre base, pas après la campagne.</p></div>
+      <div class="feat"><h3>Correspondance de colonnes apprise</h3><p>« Courriel », « e_mail_pro », « Contact mail » : les intitulés courants sont reconnus d'emblée, et vos corrections sont mémorisées pour vos prochains imports.</p></div>
+      <div class="feat"><h3>Fusion intelligente des doublons</h3><p>Deux fiches pour la même personne sont réunies en gardant la donnée la plus récente de chaque champ, jamais en écrasant au hasard.</p></div>
+      <div class="feat"><h3>Consentement et date d'inscription conservés</h3><p>La preuve d'opt-in et sa date suivent le contact jusqu'à destination. Votre registre RGPD reste complet après la migration.</p></div>
+      <div class="feat"><h3>Import programmé et récurrent</h3><p>Branchez un Google Sheet ou une URL : les nouveaux contacts partent chaque nuit, avec le même contrôle qualité.</p></div>
+      <div class="feat"><h3>Annulation en un clic, 7 jours</h3><p>Un import qui ne convient pas se défait entièrement. Les contacts ajoutés sont retirés, les fiches modifiées reviennent à leur état antérieur.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="preuves" class="rule">
+  <div class="wrap">
+    <p class="eyebrow">Preuves</p>
+    <h2>Ce que ça donne sur de vraies bases</h2>
+    <div class="proofs">
+      <div class="testi">
+        <blockquote>« Nous migrions douze ans de contacts vers Brevo. Notre prestataire annonçait trois jours de travail. Transvase l'a fait en un après-midi, et surtout il a écarté 2 100 adresses mortes que nous aurions envoyées sans le savoir. Notre premier envoi est passé à 0,4 % de rebond. »</blockquote>
+        <p class="who">Responsable CRM · distributeur de matériel médical, 38 000 contacts<br>Migration Mailchimp → Brevo, mars 2026</p>
+      </div>
+      <div class="stats">
+        <div class="stat"><div class="n">0,4 %</div><div class="l">Taux de rebond moyen du premier envoi après un import Transvase, contre 6,1 % avant.</div></div>
+        <div class="stat"><div class="n">1 h 40</div><div class="l">Temps médian d'une migration complète, de la dépose du fichier au rapport final.</div></div>
+        <div class="stat"><div class="n">11,3 %</div><div class="l">Part des contacts écartés en moyenne — autant d'envois inutiles que vous ne payez plus.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="tarifs" class="rule">
+  <div class="wrap">
+    <p class="eyebrow">Tarifs</p>
+    <h2>Vous payez au contact importé, pas à l'abonnement dormant</h2>
+    <p class="sub">Les contacts écartés par la vérification ne vous sont jamais facturés.</p>
+    <div class="plans">
+      <div class="plan">
+        <h3>Découverte</h3>
+        <div class="p">0 €<small>500 contacts, une fois</small></div>
+        <ul>
+          <li>Toutes les sources et destinations</li>
+          <li>Nettoyage et fusion des doublons</li>
+          <li>Rapport détaillé des écartés</li>
+          <li>Sans carte bancaire</li>
+        </ul>
+        <a href="#essai" class="btn ghost">Commencer maintenant</a>
+      </div>
+      <div class="plan hi">
+        <h3>Migration</h3>
+        <div class="p">49 €<small>HT · par tranche de 10 000 contacts</small></div>
+        <ul>
+          <li>Vérification serveur de chaque adresse</li>
+          <li>Annulation possible pendant 7 jours</li>
+          <li>Conservation de l'opt-in et des étiquettes</li>
+          <li>Assistance par e-mail sous 4 h ouvrées</li>
+        </ul>
+        <a href="#essai" class="btn">Lancer ma migration</a>
+      </div>
+      <div class="plan">
+        <h3>Flux continu</h3>
+        <div class="p">79 €<small>HT / mois · imports illimités</small></div>
+        <ul>
+          <li>Imports programmés chaque nuit</li>
+          <li>Google Sheets, URL, API et webhook</li>
+          <li>Alerte si la qualité d'un fichier chute</li>
+          <li>Plusieurs utilisateurs et espaces clients</li>
+        </ul>
+        <a href="#essai" class="btn ghost">Essayer 14 jours</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="questions" class="rule">
+  <div class="wrap col">
+    <p class="eyebrow">Questions fréquentes</p>
+    <h2>Ce qu'on nous demande avant de confier un fichier</h2>
+    <details open>
+      <summary>Que deviennent mes fichiers ?</summary>
+      <p>Ils sont chiffrés à la réception, conservés sur des serveurs situés en France, et supprimés automatiquement 72 heures après la fin de l'import. Vous pouvez aussi les effacer immédiatement depuis l'interface. Nous n'utilisons jamais vos contacts pour autre chose que votre import.</p>
+    </details>
+    <details>
+      <summary>Et si Transvase se trompe dans la correspondance des colonnes ?</summary>
+      <p>Rien n'est envoyé avant votre validation. L'écran de vérification affiche les cinq premières lignes telles qu'elles arriveront à destination, et chaque correspondance se change dans une liste déroulante. Si vous vous en apercevez après coup, l'annulation sur sept jours remet la base dans son état d'origine.</p>
+    </details>
+    <details>
+      <summary>Ma plateforme n'est pas dans la liste.</summary>
+      <p>Toute plateforme acceptant un import CSV ou disposant d'une API fonctionne : Transvase produit un fichier au format exact attendu par la destination, ou l'envoie directement par webhook. Écrivez-nous le nom de l'outil, nous vous confirmons sous 24 heures.</p>
+    </details>
+    <details>
+      <summary>Suis-je encore en règle avec le RGPD après un import ?</summary>
+      <p>La date et l'origine du consentement sont transportées avec chaque contact quand elles existent dans votre fichier. Quand elles manquent, Transvase le signale explicitement plutôt que d'inventer une date — c'est à vous de décider si ces contacts entrent dans la base.</p>
+    </details>
+    <details>
+      <summary>Combien de temps pour une base de 50 000 contacts ?</summary>
+      <p>La lecture et le nettoyage prennent une dizaine de minutes. La vérification des adresses auprès des serveurs destinataires, qui est l'étape lente, tourne autour d'une heure trente pour 50 000 adresses. Vous recevez un e-mail quand le rapport est prêt.</p>
+    </details>
+  </div>
+</section>
+
+<section id="essai" class="final">
+  <div class="wrap">
+    <div>
+      <p class="eyebrow">Essai gratuit</p>
+      <h2>Testez sur vos 500 premiers contacts. Vous verrez ce qui cloche dans votre base.</h2>
+      <p class="sub" style="margin-bottom:0">Déposez un extrait de votre fichier : vous recevez le rapport de qualité complet avant même de créer un compte payant.</p>
+      <div class="checks">
+        <div>Le nombre exact d'adresses mortes que contient votre base</div>
+        <div>Les doublons et les fautes de domaine détectés, listés</div>
+        <div>La correspondance de colonnes déjà préparée pour votre plateforme</div>
+        <div>Aucune carte bancaire, aucun envoi déclenché, fichier supprimé sous 72 h</div>
+      </div>
+    </div>
+
+    <form onsubmit="event.preventDefault();this.querySelector('.btn').textContent='Demande enregistrée ✓';">
+      <label>E-mail professionnel
+        <input type="email" name="email" placeholder="prenom@entreprise.fr" required>
+      </label>
+      <label>D'où viennent vos contacts ?
+        <select name="source" required>
+          <option value="">Choisir une source…</option>
+          <option>Fichier CSV ou Excel</option>
+          <option>Mailchimp</option>
+          <option>Outlook ou Gmail</option>
+          <option>Google Sheets</option>
+          <option>Un CRM (HubSpot, Odoo, autre)</option>
+          <option>Je ne sais pas encore</option>
+        </select>
+      </label>
+      <label>Vers quelle plateforme ?
+        <select name="dest" required>
+          <option value="">Choisir une destination…</option>
+          <option>Brevo</option>
+          <option>Mailchimp</option>
+          <option>Klaviyo</option>
+          <option>HubSpot</option>
+          <option>Autre / à confirmer</option>
+        </select>
+      </label>
+      <label>Combien de contacts, environ ?
+        <input type="text" name="volume" placeholder="Ex. : 12 000" inputmode="numeric">
+      </label>
+      <button class="btn" type="submit">Lancer mon import de test</button>
+      <p class="hint">Accès immédiat. Vos données ne sont ni revendues ni utilisées pour des envois.</p>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap" style="display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;padding:0">
+    <span>Transvase — import et migration de contacts e-mail</span>
+    <span>Exemple de page de vente · rédaction et conception : Tony</span>
+  </div>
+</footer>
+</body>
+</html>

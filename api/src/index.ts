@@ -36,6 +36,7 @@ import {
   type ResendEmailPayload,
 } from "./resend.ts";
 import { SITE } from "./site.ts";
+import { handleHealthz, handleHealthzHead } from "./health.ts";
 import {
   createCustomer,
   createPaymentIntent,
@@ -156,10 +157,6 @@ async function deliver(payload: ResendEmailPayload, idempotencyKey: string, even
 // delivered, stop retrying, and leave a captured payment with no notification
 // and no error in any log.
 // ---------------------------------------------------------------------------
-
-async function handleHealthz(): Promise<Response> {
-  return new Response("ok", { status: 200, headers: { "Content-Type": "text/plain; charset=utf-8" } });
-}
 
 async function handleCheckout(request: Request): Promise<Response> {
   const raw = await readBody(request, MAX_JSON_BYTES);
@@ -354,7 +351,7 @@ const server = Bun.serve({
   // decodes to the exception message and the server's own source text.
   development: false,
   routes: {
-    "/api/healthz": { GET: handleHealthz },
+    "/api/healthz": { GET: handleHealthz, HEAD: handleHealthzHead },
     "/api/checkout": { POST: handleCheckout },
     "/api/lead": { POST: handleLead },
     "/api/stripe-webhook": { POST: handleWebhook },

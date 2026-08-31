@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#F1F3F6" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0B1118" media="(prefers-color-scheme: dark)">
-<meta name="description" content="Import et migration de contacts e-mail entre plateformes, sans perdre un contact ni abîmer votre délivrabilité.">
+<meta name="theme-color" content="#F5F6F8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#08090C" media="(prefers-color-scheme: dark)">
+<meta name="description" content="Import et migration de contacts e-mail entre plateformes. Nettoyage, vérification des adresses et correspondance des colonnes automatiques. 500 contacts gratuits.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Transvase">
-<meta property="og:description" content="Import et migration de contacts e-mail entre plateformes, sans perdre un contact ni abîmer votre délivrabilité.">
+<meta property="og:description" content="Changez d'outil d'e-mailing sans perdre un seul contact. Import et migration vérifiés, annulables 7 jours.">
 <meta property="og:url" content="https://transvase.devanchor.company/">
 <meta property="og:locale" content="fr_FR">
 <link rel="canonical" href="https://transvase.devanchor.company/">
@@ -16,210 +16,280 @@
 <title>Transvase</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Serif:ital,wght@0,400;1,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap">
 
 <style>
+/* ============================================================
+   Transvase — "the page is the pipeline"
+   Bento cells that read left to right, a flow line that runs
+   through the sections, soft surfaces, one signal colour for
+   what has been checked and one for what was thrown out.
+   ============================================================ */
 :root{
-  --ground:#F1F3F6;
+  --bg:#F5F6F8;
   --surface:#FFFFFF;
-  --surface-2:#E7EBF1;
-  --ink:#0F1A24;
-  --ink-soft:#3E4C5A;
-  --ink-faint:#6B7A89;
-  --line:#D3DAE3;
-  --signal:#1F4FD8;
-  --signal-deep:#143AA8;
-  --sand:#C98A2E;
-  --ok:#1B7F5A;
-  --stop:#B23A2E;
-  --shadow:0 1px 2px rgba(15,26,36,.05),0 18px 40px -30px rgba(15,26,36,.6);
+  --surface-2:#EDEFF3;
+  --ink:#0C0E14;
+  --ink-2:#4B5262;
+  --ink-3:#828A9B;
+  --edge:#DFE3EA;
+  --flow:#00A56E;
+  --flow-soft:#D8F5E9;
+  --spark:#5B45E0;
+  --spark-soft:#E7E2FD;
+  --drop:#C9452E;
+  --drop-soft:#FBE3DE;
+  --on-flow:#FFFFFF;
+  --r:14px;
+  --shadow:0 1px 2px rgba(12,14,20,.05),0 12px 28px -18px rgba(12,14,20,.35);
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --ground:#0B1118;
-    --surface:#121A22;
-    --surface-2:#1A242E;
-    --ink:#E7EDF4;
-    --ink-soft:#AEBCC9;
-    --ink-faint:#778795;
-    --line:#25313D;
-    --signal:#7CA0FF;
-    --signal-deep:#A6BEFF;
-    --sand:#E5B569;
-    --ok:#4FC79B;
-    --stop:#E2806F;
-    --shadow:0 1px 2px rgba(0,0,0,.5),0 20px 46px -32px #000;
+    --bg:#08090C;
+    --surface:#101218;
+    --surface-2:#171A22;
+    --ink:#EEF1F6;
+    --ink-2:#A6AEBF;
+    --ink-3:#6E7788;
+    --edge:#222632;
+    --flow:#2EE0A0;
+    --flow-soft:#0E2A21;
+    --spark:#9E8BFF;
+    --spark-soft:#1B1830;
+    --drop:#FF7A5E;
+    --drop-soft:#2A140F;
+    --on-flow:#05130D;
+    --shadow:0 1px 2px rgba(0,0,0,.5),0 18px 40px -24px #000;
   }
 }
 :root[data-theme="dark"]{
-  --ground:#0B1118;
-  --surface:#121A22;
-  --surface-2:#1A242E;
-  --ink:#E7EDF4;
-  --ink-soft:#AEBCC9;
-  --ink-faint:#778795;
-  --line:#25313D;
-  --signal:#7CA0FF;
-  --signal-deep:#A6BEFF;
-  --sand:#E5B569;
-  --ok:#4FC79B;
-  --stop:#E2806F;
-  --shadow:0 1px 2px rgba(0,0,0,.5),0 20px 46px -32px #000;
+  --bg:#08090C; --surface:#101218; --surface-2:#171A22;
+  --ink:#EEF1F6; --ink-2:#A6AEBF; --ink-3:#6E7788; --edge:#222632;
+  --flow:#2EE0A0; --flow-soft:#0E2A21; --spark:#9E8BFF; --spark-soft:#1B1830;
+  --drop:#FF7A5E; --drop-soft:#2A140F; --on-flow:#05130D;
+  --shadow:0 1px 2px rgba(0,0,0,.5),0 18px 40px -24px #000;
 }
 
 *{box-sizing:border-box}
+html{scroll-behavior:smooth}
 body{
-  margin:0;background:var(--ground);color:var(--ink);
-  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
-  font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Inter","Helvetica Neue",Arial,sans-serif;
+  font-size:16.5px;line-height:1.62;-webkit-font-smoothing:antialiased;
 }
-h1,h2,h3{margin:0;letter-spacing:-.022em;text-wrap:balance;line-height:1.1;font-weight:700}
-.mono{font-family:"IBM Plex Mono",ui-monospace,Menlo,monospace}
+img{max-width:100%}
 a{color:inherit}
-.wrap{max-width:1120px;margin:0 auto;padding:0 26px}
-.col{max-width:68ch}
+::selection{background:var(--flow);color:var(--on-flow)}
+:focus-visible{outline:2px solid var(--spark);outline-offset:3px}
+h1,h2,h3{font-family:"Space Grotesk",sans-serif;font-weight:600;letter-spacing:-.025em;line-height:1.06;margin:0;text-wrap:balance}
+.mono{font-family:"DM Mono",ui-monospace,Menlo,monospace;font-variant-numeric:tabular-nums}
+.wrap{max-width:1200px;margin:0 auto;padding:0 22px}
+section{padding:96px 0}
+@media(max-width:760px){section{padding:64px 0}}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:"DM Mono",monospace;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-2);background:var(--surface);border:1px solid var(--edge);
+  border-radius:999px;padding:6px 13px;margin:0 0 22px;
+}
+.eyebrow::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--flow);flex:none}
+h2.big{font-size:clamp(30px,4.2vw,46px);max-width:22ch}
+.sub{color:var(--ink-2);font-size:18px;max-width:64ch;margin:18px 0 0}
 
-.eyebrow{font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--signal);font-weight:600;margin:0 0 14px}
-.eyebrow.mute{color:var(--ink-faint)}
-
+/* ---------- buttons ---------- */
 .btn{
   display:inline-flex;align-items:center;justify-content:center;gap:9px;
-  font-family:"IBM Plex Sans",sans-serif;font-weight:600;font-size:16px;
-  background:var(--signal);color:#fff;border:0;border-radius:8px;padding:13px 22px;
-  text-decoration:none;cursor:pointer;transition:background .15s ease,transform .12s ease;
+  font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:15.5px;
+  background:var(--ink);color:var(--bg);border:1px solid var(--ink);
+  border-radius:999px;padding:14px 24px;text-decoration:none;cursor:pointer;
+  transition:transform .14s cubic-bezier(.2,.9,.3,1),box-shadow .14s ease,opacity .14s;
+  box-shadow:var(--shadow);
 }
-:root[data-theme="dark"] .btn{color:#0B1118}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .btn{color:#0B1118}}
-.btn:hover{background:var(--signal-deep);transform:translateY(-1px)}
-.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
-.btn.ghost:hover{background:var(--surface-2)}
-.btn.sm{padding:9px 15px;font-size:14px;border-radius:6px}
-:focus-visible{outline:2px solid var(--signal);outline-offset:2px}
+.btn:hover{transform:translateY(-2px)}
+.btn.flow{background:var(--flow);border-color:var(--flow);color:var(--on-flow)}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--edge);box-shadow:none}
+.btn.ghost:hover{border-color:var(--ink)}
+.btn.sm{padding:9px 16px;font-size:14px}
 
-header.top{position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--ground) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-header.top .wrap{display:flex;align-items:center;gap:18px;height:62px}
-.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:17px;letter-spacing:-.02em}
-.brand svg{flex:none}
-header nav{margin-left:auto;display:flex;gap:24px;align-items:center;font-size:15px;font-weight:500}
-header nav a{text-decoration:none;color:var(--ink-soft)}
-header nav a:hover{color:var(--ink)}
-@media(max-width:720px){header nav a.hide-s{display:none}}
+/* ---------- top bar ---------- */
+.top{position:sticky;top:0;z-index:60;background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--edge)}
+.top .wrap{display:flex;align-items:center;gap:18px;height:64px}
+.brand{display:flex;align-items:center;gap:10px;font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:18px;letter-spacing:-.03em}
+.brand svg{color:var(--flow)}
+.top nav{margin-left:auto;display:flex;gap:24px;align-items:center;font-size:15px;font-weight:500}
+.top nav a{text-decoration:none;color:var(--ink-2)}
+.top nav a:hover{color:var(--ink)}
+@media(max-width:820px){.top nav a.hide-s{display:none}}
 
-section{padding:80px 0}
-@media(max-width:720px){section{padding:54px 0}}
-.rule{border-top:1px solid var(--line)}
-h2{font-size:clamp(27px,3.3vw,38px);margin-bottom:14px}
-.sub{color:var(--ink-faint);font-size:19px;margin:0 0 40px;max-width:62ch}
+/* ---------- hero ---------- */
+.hero{padding:76px 0 84px;position:relative;overflow:hidden}
+.hero::before{
+  content:"";position:absolute;left:50%;top:-320px;width:900px;height:520px;transform:translateX(-50%);
+  background:radial-gradient(closest-side,color-mix(in srgb,var(--flow) 20%,transparent),transparent);
+  filter:blur(20px);pointer-events:none;
+}
+.hero .wrap{display:grid;grid-template-columns:1fr 1.02fr;gap:52px;align-items:center;position:relative}
+@media(max-width:1000px){.hero .wrap{grid-template-columns:1fr;gap:40px}}
+.hero h1{font-size:clamp(38px,5.6vw,66px);letter-spacing:-.035em}
+.hero h1 span{
+  background:linear-gradient(100deg,var(--flow),var(--spark));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.lede{font-size:19.5px;color:var(--ink-2);margin:24px 0 0;max-width:50ch}
+.cta-row{display:flex;flex-wrap:wrap;gap:13px;margin-top:32px}
+.microcopy{font-family:"DM Mono",monospace;font-size:12.5px;color:var(--ink-3);margin-top:20px;line-height:1.9}
 
-/* hero */
-.hero{padding:70px 0 64px}
-.hero .wrap{display:grid;grid-template-columns:1.02fr .98fr;gap:52px;align-items:center}
-@media(max-width:960px){.hero .wrap{grid-template-columns:1fr;gap:40px}}
-.hero h1{font-size:clamp(36px,5vw,56px)}
-.hero h1 span{color:var(--signal)}
-.hero .lede{font-size:20px;color:var(--ink-soft);margin:20px 0 0;max-width:50ch}
-.cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
-.microcopy{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-faint);margin-top:18px;line-height:1.9}
-
-/* flow panel */
-.panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);overflow:hidden}
-.panel-head{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line);background:var(--surface-2)}
-.dot{width:9px;height:9px;border-radius:50%;background:var(--ok);flex:none;box-shadow:0 0 0 3px color-mix(in srgb,var(--ok) 22%,transparent)}
-.panel-head .t{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-soft);letter-spacing:.03em}
-.panel-head .r{margin-left:auto;font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--ink-faint)}
-table{width:100%;border-collapse:collapse;font-family:"IBM Plex Mono",monospace;font-size:12.5px}
+/* console card */
+.console{
+  background:var(--surface);border:1px solid var(--edge);border-radius:var(--r);
+  box-shadow:var(--shadow);overflow:hidden;
+}
+.console .head{display:flex;align-items:center;gap:10px;padding:13px 16px;border-bottom:1px solid var(--edge);background:var(--surface-2)}
+.console .head .dots{display:flex;gap:5px}
+.console .head .dots i{width:9px;height:9px;border-radius:50%;background:var(--edge);display:block}
+.console .head .t{font-family:"DM Mono",monospace;font-size:12.5px;color:var(--ink-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.console .head .r{margin-left:auto;font-family:"DM Mono",monospace;font-size:11.5px;color:var(--ink-3);white-space:nowrap}
 .tscroll{overflow-x:auto}
-th{text-align:left;font-weight:500;color:var(--ink-faint);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;padding:12px 16px;border-bottom:1px solid var(--line)}
-td{padding:11px 16px;border-bottom:1px solid var(--line);color:var(--ink-soft);white-space:nowrap;font-variant-numeric:tabular-nums}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:520px}
+th{
+  text-align:left;font-family:"DM Mono",monospace;font-weight:400;font-size:11px;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);
+  padding:12px 16px;border-bottom:1px solid var(--edge);
+}
+td{padding:11px 16px;border-bottom:1px solid var(--edge);vertical-align:middle}
 tr:last-child td{border-bottom:0}
-td.to{color:var(--ink);font-weight:500}
-.arrow{color:var(--signal)}
-.badge{font-size:10.5px;padding:2px 8px;border-radius:99px;font-weight:600;letter-spacing:.02em}
-.b-ok{background:color-mix(in srgb,var(--ok) 16%,transparent);color:var(--ok)}
-.b-fix{background:color-mix(in srgb,var(--sand) 20%,transparent);color:var(--sand)}
-.b-out{background:color-mix(in srgb,var(--stop) 16%,transparent);color:var(--stop)}
-.panel-foot{padding:14px 16px;font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-faint);border-top:1px solid var(--line);background:var(--surface-2)}
-.panel-foot b{color:var(--ok);font-weight:600}
+tbody tr:hover{background:var(--surface-2)}
+td.arrow{color:var(--ink-3);font-family:"DM Mono",monospace;width:1%;padding:0 4px}
+td.to{font-family:"DM Mono",monospace;color:var(--ink)}
+.badge{display:inline-block;font-family:"DM Mono",monospace;font-size:11px;padding:3px 9px;border-radius:999px;white-space:nowrap}
+.b-ok{background:var(--flow-soft);color:var(--flow)}
+.b-fix{background:var(--spark-soft);color:var(--spark)}
+.b-out{background:var(--drop-soft);color:var(--drop)}
+.console .foot{padding:14px 16px;border-top:1px solid var(--edge);background:var(--surface-2);font-size:13.5px;color:var(--ink-2)}
+.console .foot b{color:var(--flow)}
 
-/* logos strip */
-.strip{background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:22px 0}
-.strip .wrap{display:flex;flex-wrap:wrap;gap:12px 34px;align-items:center;font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--ink-faint);letter-spacing:.04em}
-.strip b{color:var(--ink-soft);font-weight:500}
+/* ---------- logo strip ---------- */
+.strip{border-top:1px solid var(--edge);border-bottom:1px solid var(--edge);background:var(--surface)}
+.strip .wrap{display:flex;flex-wrap:wrap;gap:14px 40px;justify-content:space-between;padding-top:18px;padding-bottom:18px;font-family:"DM Mono",monospace;font-size:12.5px;color:var(--ink-3)}
+.strip b{color:var(--ink-2);font-weight:500}
 
-/* pain */
-.pains{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-@media(max-width:900px){.pains{grid-template-columns:1fr}}
-.pain{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:24px}
-.pain .cost{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--stop);letter-spacing:.1em;text-transform:uppercase;font-weight:600;display:block;margin-bottom:12px}
-.pain h3{font-size:18px;margin-bottom:9px}
-.pain p{margin:0;color:var(--ink-soft);font-size:16px}
+/* ---------- bento ---------- */
+.bento{display:grid;grid-template-columns:repeat(6,1fr);gap:16px;margin-top:44px}
+@media(max-width:1000px){.bento{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){.bento{grid-template-columns:1fr}}
+.cell{
+  background:var(--surface);border:1px solid var(--edge);border-radius:var(--r);
+  padding:26px 24px;grid-column:span 2;display:flex;flex-direction:column;
+  transition:border-color .16s ease,transform .16s ease;
+}
+.cell:hover{border-color:color-mix(in srgb,var(--flow) 55%,var(--edge));transform:translateY(-2px)}
+.cell h3{font-size:19px;margin-bottom:10px}
+.cell p{margin:0;color:var(--ink-2);font-size:15.5px}
+.cell.w3{grid-column:span 3}
+.cell.w4{grid-column:span 4}
+@media(max-width:1000px){.cell,.cell.w3,.cell.w4{grid-column:span 1}}
+.cost{
+  font-family:"DM Mono",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--drop);background:var(--drop-soft);border-radius:999px;padding:4px 10px;
+  align-self:flex-start;margin-bottom:16px;
+}
+.cell .ic{
+  width:34px;height:34px;border-radius:9px;background:var(--flow-soft);color:var(--flow);
+  display:grid;place-items:center;font-family:"DM Mono",monospace;font-size:14px;margin-bottom:16px;
+}
 
-/* steps as pipeline */
-.pipe{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface)}
-@media(max-width:900px){.pipe{grid-template-columns:1fr}}
-.pipe > div{padding:28px 24px;border-right:1px solid var(--line);position:relative}
-.pipe > div:last-child{border-right:0}
-@media(max-width:900px){.pipe > div{border-right:0;border-bottom:1px solid var(--line)}.pipe > div:last-child{border-bottom:0}}
-.pipe .st{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.14em;color:var(--signal);text-transform:uppercase;display:block;margin-bottom:14px}
-.pipe h3{font-size:19px;margin-bottom:10px}
-.pipe p{margin:0;color:var(--ink-soft);font-size:16px}
+/* ---------- pipeline ---------- */
+.pipe{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:48px;position:relative}
+@media(max-width:860px){.pipe{grid-template-columns:1fr}}
+.node{padding:0 28px;position:relative}
+.node:first-child{padding-left:0}
+.node:last-child{padding-right:0}
+@media(max-width:860px){.node{padding:0 0 34px}}
+.node .dot{
+  width:16px;height:16px;border-radius:50%;background:var(--flow);
+  box-shadow:0 0 0 6px var(--flow-soft);position:relative;z-index:2;margin-bottom:22px;
+}
+.node::before{
+  content:"";position:absolute;left:0;right:0;top:8px;height:2px;
+  background:linear-gradient(90deg,var(--flow),color-mix(in srgb,var(--flow) 25%,transparent));
+  z-index:1;
+}
+.node:first-child::before{left:8px}
+.node:last-child::before{background:color-mix(in srgb,var(--flow) 25%,transparent);right:auto;width:8px}
+@media(max-width:860px){.node::before{display:none}}
+.node .st{font-family:"DM Mono",monospace;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);display:block;margin-bottom:10px}
+.node h3{font-size:21px;margin-bottom:12px}
+.node p{margin:0;color:var(--ink-2);font-size:16px;max-width:38ch}
 
-/* features */
-.feats{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden}
-@media(max-width:800px){.feats{grid-template-columns:1fr}}
-.feat{background:var(--surface);padding:26px 24px}
-.feat h3{font-size:17.5px;margin-bottom:8px;display:flex;align-items:center;gap:10px}
-.feat h3::before{content:"";width:7px;height:7px;background:var(--signal);border-radius:2px;flex:none}
-.feat p{margin:0;color:var(--ink-soft);font-size:16px}
+/* ---------- proof ---------- */
+.proofs{display:grid;grid-template-columns:1.25fr 1fr;gap:16px;margin-top:44px}
+@media(max-width:960px){.proofs{grid-template-columns:1fr}}
+.testi{
+  background:var(--ink);color:var(--bg);border-radius:var(--r);padding:40px 36px;
+  display:flex;flex-direction:column;justify-content:center;
+}
+.testi blockquote{margin:0;font-family:"Space Grotesk",sans-serif;font-size:clamp(20px,2.3vw,27px);line-height:1.32;letter-spacing:-.02em;font-weight:500}
+.testi .who{margin:26px 0 0;font-family:"DM Mono",monospace;font-size:12px;line-height:1.8;color:color-mix(in srgb,var(--bg) 62%,transparent)}
+.stats{display:grid;gap:16px}
+.stat{background:var(--surface);border:1px solid var(--edge);border-radius:var(--r);padding:24px}
+.stat .n{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:40px;line-height:1;letter-spacing:-.03em;color:var(--flow);font-variant-numeric:tabular-nums}
+.stat .l{color:var(--ink-2);font-size:14.5px;margin-top:10px}
 
-/* proof */
-.proofs{display:grid;grid-template-columns:1.3fr 1fr;gap:20px}
-@media(max-width:900px){.proofs{grid-template-columns:1fr}}
-.testi{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:28px}
-.testi blockquote{margin:0 0 18px;font-family:"IBM Plex Serif",Georgia,serif;font-size:21px;line-height:1.5}
-.testi .who{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-faint);line-height:1.8}
-.stats{display:grid;gap:20px}
-.stat{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:22px}
-.stat .n{font-size:36px;font-weight:700;letter-spacing:-.03em;color:var(--signal);font-variant-numeric:tabular-nums;line-height:1}
-.stat .l{font-size:15px;color:var(--ink-soft);margin-top:8px}
+/* ---------- pricing ---------- */
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:44px;align-items:stretch}
+@media(max-width:940px){.plans{grid-template-columns:1fr}}
+.plan{background:var(--surface);border:1px solid var(--edge);border-radius:var(--r);padding:30px 26px;display:flex;flex-direction:column}
+.plan.hi{border-color:var(--flow);box-shadow:0 0 0 3px var(--flow-soft),var(--shadow);position:relative}
+.plan.hi::after{
+  content:"Le plus choisi";position:absolute;top:-11px;left:26px;
+  font-family:"DM Mono",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  background:var(--flow);color:var(--on-flow);padding:3px 11px;border-radius:999px;
+}
+.plan h3{font-size:19px}
+.p{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:42px;letter-spacing:-.035em;line-height:1;margin:16px 0 0}
+.p small{display:block;font-family:"DM Mono",monospace;font-size:11.5px;font-weight:400;letter-spacing:.04em;color:var(--ink-3);margin-top:10px;line-height:1.6}
+.plan ul{list-style:none;margin:22px 0 26px;padding:0;font-size:15px;color:var(--ink-2);display:grid;gap:11px}
+.plan li{padding-left:26px;position:relative}
+.plan li::before{
+  content:"✓";position:absolute;left:0;top:0;width:17px;height:17px;border-radius:50%;
+  background:var(--flow-soft);color:var(--flow);font-size:10px;display:grid;place-items:center;margin-top:4px;
+}
+.plan .btn{margin-top:auto;width:100%}
 
-/* pricing */
-.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;align-items:start}
-@media(max-width:900px){.plans{grid-template-columns:1fr}}
-.plan{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:26px;display:flex;flex-direction:column;gap:16px}
-.plan.hi{border-color:var(--signal);box-shadow:var(--shadow)}
-.plan h3{font-size:20px}
-.plan .p{font-size:34px;font-weight:700;letter-spacing:-.03em;line-height:1}
-.plan .p small{display:block;font-family:"IBM Plex Mono",monospace;font-size:11.5px;font-weight:400;color:var(--ink-faint);margin-top:9px;letter-spacing:.03em}
-.plan ul{list-style:none;margin:0;padding:0;display:grid;gap:9px;font-size:15.5px;color:var(--ink-soft)}
-.plan li{padding-left:20px;position:relative}
-.plan li::before{content:"→";position:absolute;left:0;color:var(--signal);font-family:"IBM Plex Mono",monospace;font-size:13px}
-.plan .btn{margin-top:auto}
-
-/* faq */
-details{border-bottom:1px solid var(--line);padding:17px 0}
-summary{font-weight:600;font-size:17.5px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:18px;align-items:center}
+/* ---------- FAQ ---------- */
+.faq{margin-top:36px;max-width:78ch;display:grid;gap:12px}
+details{background:var(--surface);border:1px solid var(--edge);border-radius:var(--r);padding:0 22px}
+details[open]{border-color:color-mix(in srgb,var(--flow) 45%,var(--edge))}
+summary{cursor:pointer;list-style:none;padding:19px 34px 19px 0;position:relative;font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:17px}
 summary::-webkit-details-marker{display:none}
-summary::after{content:"+";font-family:"IBM Plex Mono",monospace;color:var(--signal);font-size:19px;flex:none}
-details[open] summary::after{content:"–"}
-details p{margin:11px 0 0;color:var(--ink-soft);max-width:70ch;font-size:16.5px}
+summary::after{content:"";position:absolute;right:2px;top:50%;width:9px;height:9px;border-right:2px solid var(--flow);border-bottom:2px solid var(--flow);transform:translateY(-70%) rotate(45deg);transition:transform .18s ease}
+details[open] summary::after{transform:translateY(-30%) rotate(225deg)}
+details p{margin:0 0 20px;color:var(--ink-2);font-size:15.5px;max-width:66ch}
 
-/* final */
-.final{background:var(--surface);border-top:1px solid var(--line)}
-.final .wrap{display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:start}
-@media(max-width:900px){.final .wrap{grid-template-columns:1fr;gap:34px}}
-form{background:var(--ground);border:1px solid var(--line);border-radius:12px;padding:26px;display:grid;gap:15px}
-label{display:grid;gap:6px;font-size:14px;font-weight:600}
-input,select,textarea{font-family:"IBM Plex Sans",sans-serif;font-size:16px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:7px;padding:11px 12px;width:100%}
-textarea{min-height:80px;resize:vertical}
-.hint{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--ink-faint);line-height:1.8}
-.checks{display:grid;gap:14px;margin-top:24px}
-.checks div{padding-left:25px;position:relative;color:var(--ink-soft);font-size:16.5px}
-.checks div::before{content:"✓";position:absolute;left:0;top:1px;color:var(--ok);font-family:"IBM Plex Mono",monospace;font-size:14px;font-weight:600}
+/* ---------- final ---------- */
+.final{background:var(--surface);border-top:1px solid var(--edge)}
+.final .wrap{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+@media(max-width:960px){.final .wrap{grid-template-columns:1fr;gap:36px}}
+.checks{margin-top:26px;display:grid;gap:12px}
+.checks div{padding-left:30px;position:relative;color:var(--ink-2);font-size:15.5px}
+.checks div::before{content:"✓";position:absolute;left:0;top:1px;width:20px;height:20px;border-radius:50%;background:var(--flow);color:var(--on-flow);font-size:11px;display:grid;place-items:center}
+form{background:var(--bg);border:1px solid var(--edge);border-radius:var(--r);padding:28px 26px;box-shadow:var(--shadow)}
+label{display:block;margin-bottom:18px;font-size:13.5px;font-weight:600;color:var(--ink-2)}
+input,select,textarea{
+  display:block;width:100%;margin-top:8px;padding:13px 14px;
+  border:1px solid var(--edge);border-radius:10px;background:var(--surface);color:var(--ink);
+  font-family:"Inter",sans-serif;font-size:16px;font-weight:400;
+}
+select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,currentColor 50%),linear-gradient(135deg,currentColor 50%,transparent 50%);background-position:calc(100% - 20px) 21px,calc(100% - 15px) 21px;background-size:5px 5px;background-repeat:no-repeat;padding-right:40px}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--flow);box-shadow:0 0 0 3px var(--flow-soft)}
+form .btn{width:100%;margin-top:4px}
+.hint{font-size:12.5px;color:var(--ink-3);margin:14px 0 0;line-height:1.6}
 
-footer{border-top:1px solid var(--line);padding:32px 0;font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-faint);display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;line-height:1.9}
+footer{border-top:1px solid var(--edge);padding:26px 0;font-family:"DM Mono",monospace;font-size:12px;color:var(--ink-3)}
+footer .wrap{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between}
 </style>
 </head>
+
 <body>
 <header class="top">
   <div class="wrap">
@@ -229,9 +299,9 @@ footer{border-top:1px solid var(--line);padding:32px 0;font-family:"IBM Plex Mon
     </span>
     <nav>
       <a href="#comment" class="hide-s">Comment ça marche</a>
-      <a href="#sources" class="hide-s">Sources</a>
-      <a href="#tarifs">Tarifs</a>
-      <a href="#essai" class="btn sm">Tester gratuitement</a>
+      <a href="#sources" class="hide-s">Fonctions</a>
+      <a href="#tarifs" class="hide-s">Tarifs</a>
+      <a href="#essai" class="btn flow sm">Tester gratuitement</a>
     </nav>
   </div>
 </header>
@@ -243,16 +313,16 @@ footer{border-top:1px solid var(--line);padding:32px 0;font-family:"IBM Plex Mon
       <h1>Changez d'outil d'e-mailing <span>sans perdre un seul contact.</span></h1>
       <p class="lede">Transvase récupère vos contacts depuis n'importe quel fichier ou outil, nettoie les adresses mortes, fait correspondre vos champs tout seul, et les dépose dans votre nouvelle plateforme. Vous relisez, vous validez, c'est importé.</p>
       <div class="cta-row">
-        <a href="#essai" class="btn">Importer mes 500 premiers contacts</a>
+        <a href="#essai" class="btn flow">Importer mes 500 premiers contacts</a>
         <a href="#comment" class="btn ghost">Voir un import en 90 secondes</a>
       </div>
       <p class="microcopy">Aucune carte bancaire · Import annulable tant que vous n'avez pas validé<br>Vos fichiers sont supprimés de nos serveurs 72 h après l'import.</p>
     </div>
 
-    <div class="panel">
-      <div class="panel-head">
-        <span class="dot" aria-hidden="true"></span>
-        <span class="t">contacts-2019-2026.csv → Brevo</span>
+    <div class="console">
+      <div class="head">
+        <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="t mono">contacts-2019-2026.csv → Brevo</span>
         <span class="r">4 812 lignes lues</span>
       </div>
       <div class="tscroll">
@@ -261,7 +331,7 @@ footer{border-top:1px solid var(--line);padding:32px 0;font-family:"IBM Plex Mon
           <tbody>
             <tr><td>Adresse mail</td><td class="arrow">→</td><td class="to">EMAIL</td><td><span class="badge b-ok">reconnu</span></td></tr>
             <tr><td>Prénom / Nom</td><td class="arrow">→</td><td class="to">FIRSTNAME + LASTNAME</td><td><span class="badge b-fix">séparé</span></td></tr>
-            <tr><td>Tel. portable</td><td class="arrow">→</td><td class="to">SMS <span style="opacity:.6">(+33)</span></td><td><span class="badge b-fix">reformaté</span></td></tr>
+            <tr><td>Tel. portable</td><td class="arrow">→</td><td class="to">SMS <span style="opacity:.55">(+33)</span></td><td><span class="badge b-fix">reformaté</span></td></tr>
             <tr><td>Date inscription</td><td class="arrow">→</td><td class="to">OPT_IN_DATE</td><td><span class="badge b-ok">reconnu</span></td></tr>
             <tr><td>jean.dupont@wanadooo.fr</td><td class="arrow">→</td><td class="to">wanadoo.fr</td><td><span class="badge b-fix">corrigé</span></td></tr>
             <tr><td>127 adresses en double</td><td class="arrow">→</td><td class="to">fusionnées</td><td><span class="badge b-ok">nettoyé</span></td></tr>
@@ -269,60 +339,68 @@ footer{border-top:1px solid var(--line);padding:32px 0;font-family:"IBM Plex Mon
           </tbody>
         </table>
       </div>
-      <div class="panel-foot"><b>4 376 contacts prêts</b> · 436 écartés avec le motif · aucun envoi tant que vous n'avez pas cliqué</div>
+      <div class="foot"><b>4 376 contacts prêts</b> · 436 écartés avec le motif · aucun envoi tant que vous n'avez pas cliqué</div>
     </div>
   </div>
 </div>
 
 <div class="strip">
   <div class="wrap">
-    <span><b>Sources lues :</b> CSV, Excel, Google Sheets, Outlook, Gmail, vCard</span>
+    <span><b>Sources lues :</b> CSV · Excel · Google Sheets · Outlook · Gmail · vCard</span>
     <span><b>Destinations :</b> Brevo · Mailchimp · Klaviyo · HubSpot · Sendinblue · Odoo · webhook</span>
   </div>
 </div>
 
 <section id="probleme">
   <div class="wrap">
-    <p class="eyebrow mute">Pourquoi c'est douloureux</p>
-    <h2>Un import raté ne se voit qu'après l'envoi. C'est trop tard.</h2>
+    <p class="eyebrow">Pourquoi c'est douloureux</p>
+    <h2 class="big">Un import raté ne se voit qu'après l'envoi. C'est trop tard.</h2>
     <p class="sub">Le fichier passe, la plateforme affiche « importé », et la campagne part avec 900 « Bonjour {PRENOM} » et un taux de rebond qui abîme votre réputation d'expéditeur pour des mois.</p>
-    <div class="pains">
-      <div class="pain">
+    <div class="bento">
+      <div class="cell w3">
         <span class="cost">Coût : votre délivrabilité</span>
         <h3>Les adresses mortes font sonner l'alarme</h3>
         <p>Au-delà de 3 % de rebonds, les fournisseurs de messagerie basculent vos envois en indésirables — y compris vers vos bons clients. Un fichier de 2019 en contient souvent 10 %.</p>
       </div>
-      <div class="pain">
+      <div class="cell w3">
         <span class="cost">Coût : une journée entière</span>
         <h3>Le rapprochement des colonnes à la main</h3>
         <p>« Mail », « e-mail », « Courriel », « Adresse électronique ». Trois exports, trois formats, et personne dans l'équipe qui veut s'en occuper.</p>
       </div>
-      <div class="pain">
+      <div class="cell w3">
         <span class="cost">Coût : votre crédibilité</span>
         <h3>Les doublons qui écrivent deux fois</h3>
         <p>Le même client reçoit la promotion en double, avec deux prénoms différents. C'est le genre de détail qui fait se désabonner un habitué.</p>
+      </div>
+      <div class="cell w3" style="background:var(--surface-2);border-style:dashed">
+        <span class="cost" style="color:var(--flow);background:var(--flow-soft)">Ce que ça évite</span>
+        <h3>Le rapport avant l'envoi, pas après</h3>
+        <p>Transvase ouvre votre fichier, le mesure, et vous montre les trois chiffres qui comptent — mortes, doublons, champs manquants — pendant qu'il est encore temps de décider.</p>
       </div>
     </div>
   </div>
 </section>
 
-<section id="comment" class="rule">
+<section id="comment">
   <div class="wrap">
     <p class="eyebrow">Comment ça marche</p>
-    <h2>Trois étapes, et rien ne part sans votre accord</h2>
+    <h2 class="big">Trois étapes, et rien ne part sans votre accord</h2>
     <p class="sub">Le fonctionnement tient en une phrase : on vous montre exactement ce qui va être importé, ligne par ligne, avant de toucher à quoi que ce soit.</p>
     <div class="pipe">
-      <div>
+      <div class="node">
+        <span class="dot" aria-hidden="true"></span>
         <span class="st">1 · Déposer</span>
         <h3>Votre fichier, tel qu'il est</h3>
         <p>Glissez un CSV, un Excel, un export Outlook ou connectez directement votre ancienne plateforme. Séparateurs exotiques, accents cassés et colonnes vides sont gérés sans que vous ayez à y toucher.</p>
       </div>
-      <div>
+      <div class="node">
+        <span class="dot" aria-hidden="true"></span>
         <span class="st">2 · Vérifier</span>
         <h3>La correspondance vous est proposée</h3>
         <p>Les colonnes sont reconnues automatiquement, les téléphones remis au format international, les fautes de domaine courantes corrigées, les doublons fusionnés. Vous corrigez ce que vous voulez d'un clic.</p>
       </div>
-      <div>
+      <div class="node">
+        <span class="dot" aria-hidden="true"></span>
         <span class="st">3 · Importer</span>
         <h3>Vous validez, on transvase</h3>
         <p>Les contacts partent vers votre plateforme avec leurs listes et leurs étiquettes. Un rapport nomme chaque adresse écartée et pourquoi. Une annulation remet tout en état pendant 7 jours.</p>
@@ -331,29 +409,28 @@ footer{border-top:1px solid var(--line);padding:32px 0;font-family:"IBM Plex Mon
   </div>
 </section>
 
-<section id="sources" class="rule">
+<section id="sources">
   <div class="wrap">
     <p class="eyebrow">Ce que fait Transvase que votre plateforme ne fait pas</p>
-    <h2>Le travail ennuyeux, fait correctement</h2>
-    <p class="sub"></p>
-    <div class="feats">
-      <div class="feat"><h3>Vérification des adresses avant envoi</h3><p>Chaque adresse est contrôlée auprès du serveur destinataire. Les boîtes fermées et les pièges à spam sont écartés avant d'entrer dans votre base, pas après la campagne.</p></div>
-      <div class="feat"><h3>Correspondance de colonnes apprise</h3><p>« Courriel », « e_mail_pro », « Contact mail » : les intitulés courants sont reconnus d'emblée, et vos corrections sont mémorisées pour vos prochains imports.</p></div>
-      <div class="feat"><h3>Fusion intelligente des doublons</h3><p>Deux fiches pour la même personne sont réunies en gardant la donnée la plus récente de chaque champ, jamais en écrasant au hasard.</p></div>
-      <div class="feat"><h3>Consentement et date d'inscription conservés</h3><p>La preuve d'opt-in et sa date suivent le contact jusqu'à destination. Votre registre RGPD reste complet après la migration.</p></div>
-      <div class="feat"><h3>Import programmé et récurrent</h3><p>Branchez un Google Sheet ou une URL : les nouveaux contacts partent chaque nuit, avec le même contrôle qualité.</p></div>
-      <div class="feat"><h3>Annulation en un clic, 7 jours</h3><p>Un import qui ne convient pas se défait entièrement. Les contacts ajoutés sont retirés, les fiches modifiées reviennent à leur état antérieur.</p></div>
+    <h2 class="big">Le travail ennuyeux, fait correctement</h2>
+    <div class="bento">
+      <div class="cell w3"><span class="ic" aria-hidden="true">✓</span><h3>Vérification des adresses avant envoi</h3><p>Chaque adresse est contrôlée auprès du serveur destinataire. Les boîtes fermées et les pièges à spam sont écartés avant d'entrer dans votre base, pas après la campagne.</p></div>
+      <div class="cell w3"><span class="ic" aria-hidden="true">↹</span><h3>Correspondance de colonnes apprise</h3><p>« Courriel », « e_mail_pro », « Contact mail » : les intitulés courants sont reconnus d'emblée, et vos corrections sont mémorisées pour vos prochains imports.</p></div>
+      <div class="cell"><span class="ic" aria-hidden="true">⊕</span><h3>Fusion des doublons</h3><p>Deux fiches pour la même personne sont réunies en gardant la donnée la plus récente de chaque champ, jamais en écrasant au hasard.</p></div>
+      <div class="cell"><span class="ic" aria-hidden="true">§</span><h3>Opt-in conservé</h3><p>La preuve de consentement et sa date suivent le contact jusqu'à destination. Votre registre RGPD reste complet après la migration.</p></div>
+      <div class="cell"><span class="ic" aria-hidden="true">⟳</span><h3>Import programmé</h3><p>Branchez un Google Sheet ou une URL : les nouveaux contacts partent chaque nuit, avec le même contrôle qualité.</p></div>
+      <div class="cell w6" style="grid-column:span 6;background:var(--surface-2)"><span class="ic" aria-hidden="true">↶</span><h3>Annulation en un clic, pendant 7 jours</h3><p>Un import qui ne convient pas se défait entièrement. Les contacts ajoutés sont retirés, les fiches modifiées reviennent à leur état antérieur — sans ticket à ouvrir et sans intervention de notre côté.</p></div>
     </div>
   </div>
 </section>
 
-<section id="preuves" class="rule">
+<section id="preuves">
   <div class="wrap">
     <p class="eyebrow">Preuves</p>
-    <h2>Ce que ça donne sur de vraies bases</h2>
+    <h2 class="big">Ce que ça donne sur de vraies bases</h2>
     <div class="proofs">
       <div class="testi">
-        <blockquote>« Nous migrions douze ans de contacts vers Brevo. Notre prestataire annonçait trois jours de travail. Transvase l'a fait en un après-midi, et surtout il a écarté 2 100 adresses mortes que nous aurions envoyées sans le savoir. Notre premier envoi est passé à 0,4 % de rebond. »</blockquote>
+        <blockquote>« Notre prestataire annonçait trois jours de travail. Transvase l'a fait en un après-midi, et surtout il a écarté 2 100 adresses mortes que nous aurions envoyées sans le savoir. »</blockquote>
         <p class="who">Responsable CRM · distributeur de matériel médical, 38 000 contacts<br>Migration Mailchimp → Brevo, mars 2026</p>
       </div>
       <div class="stats">
@@ -365,10 +442,10 @@ footer{border-top:1px solid var(--line);padding:32px 0;font-family:"IBM Plex Mon
   </div>
 </section>
 
-<section id="tarifs" class="rule">
+<section id="tarifs">
   <div class="wrap">
     <p class="eyebrow">Tarifs</p>
-    <h2>Vous payez au contact importé, pas à l'abonnement dormant</h2>
+    <h2 class="big">Vous payez au contact importé, pas à l'abonnement dormant</h2>
     <p class="sub">Les contacts écartés par la vérification ne vous sont jamais facturés.</p>
     <div class="plans">
       <div class="plan">
@@ -391,7 +468,7 @@ footer{border-top:1px solid var(--line);padding:32px 0;font-family:"IBM Plex Mon
           <li>Conservation de l'opt-in et des étiquettes</li>
           <li>Assistance par e-mail sous 4 h ouvrées</li>
         </ul>
-        <a href="#essai" class="btn">Lancer ma migration</a>
+        <a href="#essai" class="btn flow">Lancer ma migration</a>
       </div>
       <div class="plan">
         <h3>Flux continu</h3>
@@ -408,30 +485,32 @@ footer{border-top:1px solid var(--line);padding:32px 0;font-family:"IBM Plex Mon
   </div>
 </section>
 
-<section id="questions" class="rule">
-  <div class="wrap col">
+<section id="questions">
+  <div class="wrap">
     <p class="eyebrow">Questions fréquentes</p>
-    <h2>Ce qu'on nous demande avant de confier un fichier</h2>
-    <details open>
-      <summary>Que deviennent mes fichiers ?</summary>
-      <p>Ils sont chiffrés à la réception, conservés sur des serveurs situés en France, et supprimés automatiquement 72 heures après la fin de l'import. Vous pouvez aussi les effacer immédiatement depuis l'interface. Nous n'utilisons jamais vos contacts pour autre chose que votre import.</p>
-    </details>
-    <details>
-      <summary>Et si Transvase se trompe dans la correspondance des colonnes ?</summary>
-      <p>Rien n'est envoyé avant votre validation. L'écran de vérification affiche les cinq premières lignes telles qu'elles arriveront à destination, et chaque correspondance se change dans une liste déroulante. Si vous vous en apercevez après coup, l'annulation sur sept jours remet la base dans son état d'origine.</p>
-    </details>
-    <details>
-      <summary>Ma plateforme n'est pas dans la liste.</summary>
-      <p>Toute plateforme acceptant un import CSV ou disposant d'une API fonctionne : Transvase produit un fichier au format exact attendu par la destination, ou l'envoie directement par webhook. Écrivez-nous le nom de l'outil, nous vous confirmons sous 24 heures.</p>
-    </details>
-    <details>
-      <summary>Suis-je encore en règle avec le RGPD après un import ?</summary>
-      <p>La date et l'origine du consentement sont transportées avec chaque contact quand elles existent dans votre fichier. Quand elles manquent, Transvase le signale explicitement plutôt que d'inventer une date — c'est à vous de décider si ces contacts entrent dans la base.</p>
-    </details>
-    <details>
-      <summary>Combien de temps pour une base de 50 000 contacts ?</summary>
-      <p>La lecture et le nettoyage prennent une dizaine de minutes. La vérification des adresses auprès des serveurs destinataires, qui est l'étape lente, tourne autour d'une heure trente pour 50 000 adresses. Vous recevez un e-mail quand le rapport est prêt.</p>
-    </details>
+    <h2 class="big">Ce qu'on nous demande avant de confier un fichier</h2>
+    <div class="faq">
+      <details open>
+        <summary>Que deviennent mes fichiers ?</summary>
+        <p>Ils sont chiffrés à la réception, conservés sur des serveurs situés en France, et supprimés automatiquement 72 heures après la fin de l'import. Vous pouvez aussi les effacer immédiatement depuis l'interface. Nous n'utilisons jamais vos contacts pour autre chose que votre import.</p>
+      </details>
+      <details>
+        <summary>Et si Transvase se trompe dans la correspondance des colonnes ?</summary>
+        <p>Rien n'est envoyé avant votre validation. L'écran de vérification affiche les cinq premières lignes telles qu'elles arriveront à destination, et chaque correspondance se change dans une liste déroulante. Si vous vous en apercevez après coup, l'annulation sur sept jours remet la base dans son état d'origine.</p>
+      </details>
+      <details>
+        <summary>Ma plateforme n'est pas dans la liste.</summary>
+        <p>Toute plateforme acceptant un import CSV ou disposant d'une API fonctionne : Transvase produit un fichier au format exact attendu par la destination, ou l'envoie directement par webhook. Écrivez-nous le nom de l'outil, nous vous confirmons sous 24 heures.</p>
+      </details>
+      <details>
+        <summary>Suis-je encore en règle avec le RGPD après un import ?</summary>
+        <p>La date et l'origine du consentement sont transportées avec chaque contact quand elles existent dans votre fichier. Quand elles manquent, Transvase le signale explicitement plutôt que d'inventer une date — c'est à vous de décider si ces contacts entrent dans la base.</p>
+      </details>
+      <details>
+        <summary>Combien de temps pour une base de 50 000 contacts ?</summary>
+        <p>La lecture et le nettoyage prennent une dizaine de minutes. La vérification des adresses auprès des serveurs destinataires, qui est l'étape lente, tourne autour d'une heure trente pour 50 000 adresses. Vous recevez un e-mail quand le rapport est prêt.</p>
+      </details>
+    </div>
   </div>
 </section>
 
@@ -439,8 +518,8 @@ footer{border-top:1px solid var(--line);padding:32px 0;font-family:"IBM Plex Mon
   <div class="wrap">
     <div>
       <p class="eyebrow">Essai gratuit</p>
-      <h2>Testez sur vos 500 premiers contacts. Vous verrez ce qui cloche dans votre base.</h2>
-      <p class="sub" style="margin-bottom:0">Déposez un extrait de votre fichier : vous recevez le rapport de qualité complet avant même de créer un compte payant.</p>
+      <h2 class="big">Testez sur vos 500 premiers contacts. Vous verrez ce qui cloche dans votre base.</h2>
+      <p class="sub">Déposez un extrait de votre fichier : vous recevez le rapport de qualité complet avant même de créer un compte payant.</p>
       <div class="checks">
         <div>Le nombre exact d'adresses mortes que contient votre base</div>
         <div>Les doublons et les fautes de domaine détectés, listés</div>
@@ -477,14 +556,14 @@ footer{border-top:1px solid var(--line);padding:32px 0;font-family:"IBM Plex Mon
       <label>Combien de contacts, environ ?
         <input type="text" name="volume" placeholder="Ex. : 12 000" inputmode="numeric">
       </label>
-      <button class="btn" type="submit">Lancer mon import de test</button>
+      <button class="btn flow" type="submit">Lancer mon import de test</button>
       <p class="hint">Accès immédiat. Vos données ne sont ni revendues ni utilisées pour des envois.</p>
     </form>
   </div>
 </section>
 
 <footer>
-  <div class="wrap" style="display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;padding:0">
+  <div class="wrap">
     <span>Transvase — import et migration de contacts e-mail</span>
     <span>Exemple de page de vente · rédaction et conception : Tony</span>
   </div>

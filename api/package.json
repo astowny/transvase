@@ -1,0 +1,14 @@
+{
+  "name": "site-payments-api",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "bun run src/index.ts",
+    "test": "bun test",
+    "typecheck": "bunx tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.3.0",
+    "typescript": "^5.9.0"
+  }
+}

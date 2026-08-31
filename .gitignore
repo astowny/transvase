@@ -1,0 +1,9 @@
+# Dokploy materialises this app's environment as a .env file in the project
+# directory, next to this file. It carries STRIPE_SECRET_KEY,
+# STRIPE_PUBLISHABLE_KEY, STRIPE_WEBHOOK_SECRET and RESEND_API_KEY.
+# Verify with: git check-ignore -v .env   (must exit 0)
+.env
+.env.*
+
+# The api's dependencies are installed inside its image, never committed.
+api/node_modules

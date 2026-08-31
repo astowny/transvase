@@ -1,21 +1,21 @@
 <!doctype html>
-<html lang="fr">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#F5F6F8" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#08090C" media="(prefers-color-scheme: dark)">
-<meta name="description" content="Import et migration de contacts e-mail entre plateformes. Nettoyage, vérification des adresses et correspondance des colonnes automatiques. 500 contacts gratuits.">
+<meta name="description" content="Import and migrate email contacts between platforms. List cleanup, address verification and automatic column mapping. First 500 contacts free.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Transvase">
-<meta property="og:description" content="Changez d'outil d'e-mailing sans perdre un seul contact. Import et migration vérifiés, annulables 7 jours.">
-<meta property="og:url" content="https://transvase.devanchor.company/">
-<meta property="og:locale" content="fr_FR">
-<meta property="og:locale:alternate" content="en_US">
+<meta property="og:description" content="Switch email platforms without losing a single contact. Every import is checked before it runs, and can be undone for 7 days.">
+<meta property="og:url" content="https://transvase.devanchor.company/en/">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="fr_FR">
 <link rel="alternate" hreflang="fr" href="https://transvase.devanchor.company/">
 <link rel="alternate" hreflang="en" href="https://transvase.devanchor.company/en/">
 <link rel="alternate" hreflang="x-default" href="https://transvase.devanchor.company/">
-<link rel="canonical" href="https://transvase.devanchor.company/">
+<link rel="canonical" href="https://transvase.devanchor.company/en/">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📥</text></svg>">
 <title>Transvase</title>
 <!-- Stripe.js on the "dahlia" train, in <head> and deliberately NOT deferred:
@@ -286,7 +286,7 @@ td.to{font-family:"DM Mono",monospace;color:var(--ink)}
 .plan{background:var(--surface);border:1px solid var(--edge);border-radius:var(--r);padding:30px 26px;display:flex;flex-direction:column}
 .plan.hi{border-color:var(--flow);box-shadow:0 0 0 3px var(--flow-soft),var(--shadow);position:relative}
 .plan.hi::after{
-  content:"Le plus choisi";position:absolute;top:-11px;left:26px;
+  content:"Most popular";position:absolute;top:-11px;left:26px;
   font-family:"DM Mono",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;
   background:var(--flow);color:var(--on-flow);padding:3px 11px;border-radius:999px;
 }
@@ -343,14 +343,14 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between}
       Transvase
     </span>
     <nav>
-      <a href="#comment" class="hide-s">Comment ça marche</a>
-      <a href="#sources" class="hide-s">Fonctions</a>
-      <a href="#tarifs" class="hide-s">Tarifs</a>
-      <span class="lang" role="group" aria-label="Langue">
-        <b aria-current="true">FR</b>
-        <a href="/en/" hreflang="en" lang="en" aria-label="English">EN</a>
+      <a href="#comment" class="hide-s">How it works</a>
+      <a href="#sources" class="hide-s">Features</a>
+      <a href="#tarifs" class="hide-s">Pricing</a>
+      <span class="lang" role="group" aria-label="Language">
+        <a href="/" hreflang="fr" lang="fr" aria-label="Français">FR</a>
+        <b aria-current="true">EN</b>
       </span>
-      <a href="#essai" class="btn flow sm">Tester gratuitement</a>
+      <a href="#essai" class="btn flow sm">Try it free</a>
     </nav>
   </div>
 </header>
@@ -358,73 +358,73 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between}
 <div class="hero">
   <div class="wrap">
     <div>
-      <p class="eyebrow">Import et migration de contacts e-mail</p>
-      <h1>Changez d'outil d'e-mailing <span>sans perdre un seul contact.</span></h1>
-      <p class="lede">Transvase récupère vos contacts depuis n'importe quel fichier ou outil, nettoie les adresses mortes, fait correspondre vos champs tout seul, et les dépose dans votre nouvelle plateforme. Vous relisez, vous validez, c'est importé.</p>
+      <p class="eyebrow">Email contact import and migration</p>
+      <h1>Switch email platforms <span>without losing a single contact.</span></h1>
+      <p class="lede">Transvase pulls your contacts out of any file or tool, clears out the dead addresses, maps your fields for you, and loads them into your new platform. You review it, you approve it, it's done.</p>
       <div class="cta-row">
-        <a href="#essai" class="btn flow">Importer mes 500 premiers contacts</a>
-        <a href="#comment" class="btn ghost">Voir un import en 90 secondes</a>
+        <a href="#essai" class="btn flow">Import my first 500 contacts</a>
+        <a href="#comment" class="btn ghost">See how an import runs</a>
       </div>
-      <p class="microcopy">Aucune carte bancaire pour l'offre Découverte · Import annulable tant que vous n'avez pas validé<br>Vos fichiers sont supprimés de nos serveurs 72 h après l'import.</p>
+      <p class="microcopy">No credit card on the Starter plan · Nothing is imported until you approve it<br>Your files are deleted from our servers 72 hours after the import.</p>
     </div>
 
     <div class="console">
       <div class="head">
         <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
         <span class="t mono">contacts-2019-2026.csv → Brevo</span>
-        <span class="r">4 812 lignes lues</span>
+        <span class="r">4,812 rows read</span>
       </div>
       <div class="tscroll">
         <table>
-          <thead><tr><th>Colonne du fichier</th><th></th><th>Champ de destination</th><th>État</th></tr></thead>
+          <thead><tr><th>Column in your file</th><th></th><th>Destination field</th><th>Status</th></tr></thead>
           <tbody>
-            <tr><td>Adresse mail</td><td class="arrow">→</td><td class="to">EMAIL</td><td><span class="badge b-ok">reconnu</span></td></tr>
-            <tr><td>Prénom / Nom</td><td class="arrow">→</td><td class="to">FIRSTNAME + LASTNAME</td><td><span class="badge b-fix">séparé</span></td></tr>
-            <tr><td>Tel. portable</td><td class="arrow">→</td><td class="to">SMS <span style="opacity:.55">(+33)</span></td><td><span class="badge b-fix">reformaté</span></td></tr>
-            <tr><td>Date inscription</td><td class="arrow">→</td><td class="to">OPT_IN_DATE</td><td><span class="badge b-ok">reconnu</span></td></tr>
-            <tr><td>jean.dupont@wanadooo.fr</td><td class="arrow">→</td><td class="to">wanadoo.fr</td><td><span class="badge b-fix">corrigé</span></td></tr>
-            <tr><td>127 adresses en double</td><td class="arrow">→</td><td class="to">fusionnées</td><td><span class="badge b-ok">nettoyé</span></td></tr>
-            <tr><td>309 adresses inexistantes</td><td class="arrow">→</td><td class="to">écartées</td><td><span class="badge b-out">bloqué</span></td></tr>
+            <tr><td>Email address</td><td class="arrow">→</td><td class="to">EMAIL</td><td><span class="badge b-ok">matched</span></td></tr>
+            <tr><td>Full name</td><td class="arrow">→</td><td class="to">FIRSTNAME + LASTNAME</td><td><span class="badge b-fix">split</span></td></tr>
+            <tr><td>Mobile phone</td><td class="arrow">→</td><td class="to">SMS <span style="opacity:.55">(E.164)</span></td><td><span class="badge b-fix">reformatted</span></td></tr>
+            <tr><td>Signup date</td><td class="arrow">→</td><td class="to">OPT_IN_DATE</td><td><span class="badge b-ok">matched</span></td></tr>
+            <tr><td>j.miller@gmial.com</td><td class="arrow">→</td><td class="to">gmail.com</td><td><span class="badge b-fix">corrected</span></td></tr>
+            <tr><td>127 duplicate addresses</td><td class="arrow">→</td><td class="to">merged</td><td><span class="badge b-ok">cleaned</span></td></tr>
+            <tr><td>309 addresses that don't exist</td><td class="arrow">→</td><td class="to">dropped</td><td><span class="badge b-out">blocked</span></td></tr>
           </tbody>
         </table>
       </div>
-      <div class="foot"><b>4 376 contacts prêts</b> · 436 écartés avec le motif · aucun envoi tant que vous n'avez pas cliqué</div>
+      <div class="foot"><b>4,376 contacts ready</b> · 436 dropped, each with a reason · nothing reaches your platform until you click</div>
     </div>
   </div>
 </div>
 
 <div class="strip">
   <div class="wrap">
-    <span><b>Sources lues :</b> CSV · Excel · Google Sheets · Outlook · Gmail · vCard</span>
-    <span><b>Destinations :</b> Brevo · Mailchimp · Klaviyo · HubSpot · Sendinblue · Odoo · webhook</span>
+    <span><b>Reads from:</b> CSV · Excel · Google Sheets · Outlook · Gmail · vCard</span>
+    <span><b>Destinations:</b> Brevo · Mailchimp · Klaviyo · HubSpot · Odoo · webhook</span>
   </div>
 </div>
 
 <section id="probleme">
   <div class="wrap">
-    <p class="eyebrow">Pourquoi c'est douloureux</p>
-    <h2 class="big">Un import raté ne se voit qu'après l'envoi. C'est trop tard.</h2>
-    <p class="sub">Le fichier passe, la plateforme affiche « importé », et la campagne part avec 900 « Bonjour {PRENOM} » et un taux de rebond qui abîme votre réputation d'expéditeur pour des mois.</p>
+    <p class="eyebrow">Why imports go wrong</p>
+    <h2 class="big">A bad import only shows up after the send. That's too late.</h2>
+    <p class="sub">The file goes through, the platform says "imported", and the campaign goes out with 900 "Hi {FIRSTNAME}" greetings and a bounce rate that damages your sender reputation for months.</p>
     <div class="bento">
       <div class="cell w3">
-        <span class="cost">Coût : votre délivrabilité</span>
-        <h3>Les adresses mortes font sonner l'alarme</h3>
-        <p>Au-delà de 3 % de rebonds, les fournisseurs de messagerie basculent vos envois en indésirables — y compris vers vos bons clients. Un fichier de 2019 en contient souvent 10 %.</p>
+        <span class="cost">Cost: your deliverability</span>
+        <h3>Dead addresses get you filtered</h3>
+        <p>Past a 3% bounce rate, mailbox providers start sending your messages to spam — including the ones going to your best customers. A list from 2019 often has 10% of them.</p>
       </div>
       <div class="cell w3">
-        <span class="cost">Coût : une journée entière</span>
-        <h3>Le rapprochement des colonnes à la main</h3>
-        <p>« Mail », « e-mail », « Courriel », « Adresse électronique ». Trois exports, trois formats, et personne dans l'équipe qui veut s'en occuper.</p>
+        <span class="cost">Cost: a full day</span>
+        <h3>Matching the columns by hand</h3>
+        <p>"Mail", "e-mail", "Email address", "Contact mail". Three exports, three formats, and nobody on the team wants the job.</p>
       </div>
       <div class="cell w3">
-        <span class="cost">Coût : votre crédibilité</span>
-        <h3>Les doublons qui écrivent deux fois</h3>
-        <p>Le même client reçoit la promotion en double, avec deux prénoms différents. C'est le genre de détail qui fait se désabonner un habitué.</p>
+        <span class="cost">Cost: your credibility</span>
+        <h3>Duplicates that mail the same person twice</h3>
+        <p>The same customer gets the promotion twice, under two different first names. That is the kind of detail that makes a loyal customer unsubscribe.</p>
       </div>
       <div class="cell w3" style="background:var(--surface-2);border-style:dashed">
-        <span class="cost" style="color:var(--flow);background:var(--flow-soft)">Ce que ça évite</span>
-        <h3>Le rapport avant l'envoi, pas après</h3>
-        <p>Transvase ouvre votre fichier, le mesure, et vous montre les trois chiffres qui comptent — mortes, doublons, champs manquants — pendant qu'il est encore temps de décider.</p>
+        <span class="cost" style="color:var(--flow);background:var(--flow-soft)">What that avoids</span>
+        <h3>The report before the send, not after</h3>
+        <p>Transvase opens your file, checks it, and shows you the three numbers that matter — dead addresses, duplicates, missing fields — while there is still time to decide.</p>
       </div>
     </div>
   </div>
@@ -432,27 +432,27 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between}
 
 <section id="comment">
   <div class="wrap">
-    <p class="eyebrow">Comment ça marche</p>
-    <h2 class="big">Trois étapes, et rien ne part sans votre accord</h2>
-    <p class="sub">Le fonctionnement tient en une phrase : on vous montre exactement ce qui va être importé, ligne par ligne, avant de toucher à quoi que ce soit.</p>
+    <p class="eyebrow">How it works</p>
+    <h2 class="big">Three steps, and nothing moves without your approval</h2>
+    <p class="sub">It fits in one sentence: we show you exactly what is about to be imported, row by row, before anything is touched.</p>
     <div class="pipe">
       <div class="node">
         <span class="dot" aria-hidden="true"></span>
-        <span class="st">1 · Déposer</span>
-        <h3>Votre fichier, tel qu'il est</h3>
-        <p>Glissez un CSV, un Excel, un export Outlook ou connectez directement votre ancienne plateforme. Séparateurs exotiques, accents cassés et colonnes vides sont gérés sans que vous ayez à y toucher.</p>
+        <span class="st">1 · Drop it in</span>
+        <h3>Your file, exactly as it is</h3>
+        <p>Drag in a CSV, an Excel sheet or an Outlook export, or connect your old platform directly. Unusual separators, mangled accents and empty columns are handled for you.</p>
       </div>
       <div class="node">
         <span class="dot" aria-hidden="true"></span>
-        <span class="st">2 · Vérifier</span>
-        <h3>La correspondance vous est proposée</h3>
-        <p>Les colonnes sont reconnues automatiquement, les téléphones remis au format international, les fautes de domaine courantes corrigées, les doublons fusionnés. Vous corrigez ce que vous voulez d'un clic.</p>
+        <span class="st">2 · Check it</span>
+        <h3>We propose the mapping, you correct it</h3>
+        <p>Columns are recognized automatically, phone numbers put back into international format, common domain typos corrected, duplicates merged. You change anything you like in one click.</p>
       </div>
       <div class="node">
         <span class="dot" aria-hidden="true"></span>
-        <span class="st">3 · Importer</span>
-        <h3>Vous validez, on transvase</h3>
-        <p>Les contacts partent vers votre plateforme avec leurs listes et leurs étiquettes. Un rapport nomme chaque adresse écartée et pourquoi. Une annulation remet tout en état pendant 7 jours.</p>
+        <span class="st">3 · Import</span>
+        <h3>You approve, we move it across</h3>
+        <p>The contacts go over to your platform with their lists and their tags. A report names every address that was dropped, and why. For seven days, one undo puts everything back.</p>
       </div>
     </div>
   </div>
@@ -460,32 +460,32 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between}
 
 <section id="sources">
   <div class="wrap">
-    <p class="eyebrow">Ce que fait Transvase que votre plateforme ne fait pas</p>
-    <h2 class="big">Le travail ennuyeux, fait correctement</h2>
+    <p class="eyebrow">What Transvase does that your platform does not</p>
+    <h2 class="big">The boring work, done properly</h2>
     <div class="bento">
-      <div class="cell w3"><span class="ic" aria-hidden="true">✓</span><h3>Vérification des adresses avant envoi</h3><p>Chaque adresse est contrôlée auprès du serveur destinataire. Les boîtes fermées et les pièges à spam sont écartés avant d'entrer dans votre base, pas après la campagne.</p></div>
-      <div class="cell w3"><span class="ic" aria-hidden="true">↹</span><h3>Correspondance de colonnes apprise</h3><p>« Courriel », « e_mail_pro », « Contact mail » : les intitulés courants sont reconnus d'emblée, et vos corrections sont mémorisées pour vos prochains imports.</p></div>
-      <div class="cell"><span class="ic" aria-hidden="true">⊕</span><h3>Fusion des doublons</h3><p>Deux fiches pour la même personne sont réunies en gardant la donnée la plus récente de chaque champ, jamais en écrasant au hasard.</p></div>
-      <div class="cell"><span class="ic" aria-hidden="true">§</span><h3>Opt-in conservé</h3><p>La preuve de consentement et sa date suivent le contact jusqu'à destination. Votre registre RGPD reste complet après la migration.</p></div>
-      <div class="cell"><span class="ic" aria-hidden="true">⟳</span><h3>Import programmé</h3><p>Branchez un Google Sheet ou une URL : les nouveaux contacts partent chaque nuit, avec le même contrôle qualité.</p></div>
-      <div class="cell w6" style="background:var(--surface-2)"><span class="ic" aria-hidden="true">↶</span><h3>Annulation en un clic, pendant 7 jours</h3><p>Un import qui ne convient pas se défait entièrement. Les contacts ajoutés sont retirés, les fiches modifiées reviennent à leur état antérieur — sans ticket à ouvrir et sans intervention de notre côté.</p></div>
+      <div class="cell w3"><span class="ic" aria-hidden="true">✓</span><h3>Addresses verified before the send</h3><p>Every address is checked against the receiving server. Closed mailboxes and spam traps are dropped before they reach your list, not after the campaign.</p></div>
+      <div class="cell w3"><span class="ic" aria-hidden="true">↹</span><h3>Column mapping that learns</h3><p>"E-Mail Addr", "e_mail_work", "Contact mail": the usual headers are recognized straight away, and your corrections are remembered for the next import.</p></div>
+      <div class="cell"><span class="ic" aria-hidden="true">⊕</span><h3>Duplicates merged</h3><p>Two records for the same person are merged by keeping the most recent value in each field, never by overwriting at random.</p></div>
+      <div class="cell"><span class="ic" aria-hidden="true">§</span><h3>Opt-in kept</h3><p>Proof of consent and its date travel with the contact all the way to the destination. Your consent records stay complete after the migration.</p></div>
+      <div class="cell"><span class="ic" aria-hidden="true">⟳</span><h3>Scheduled imports</h3><p>Connect a Google Sheet or a URL, and new contacts come in every night, through the same quality checks.</p></div>
+      <div class="cell w6" style="background:var(--surface-2)"><span class="ic" aria-hidden="true">↶</span><h3>One-click undo, for seven days</h3><p>An import you are not happy with rolls back completely. The contacts it added are removed, the records it changed go back to how they were — no support ticket, nothing to ask us for.</p></div>
     </div>
   </div>
 </section>
 
 <section id="preuves">
   <div class="wrap">
-    <p class="eyebrow">Preuves</p>
-    <h2 class="big">Ce que ça donne sur de vraies bases</h2>
+    <p class="eyebrow">Proof</p>
+    <h2 class="big">What this looks like on real lists</h2>
     <div class="proofs">
       <div class="testi">
-        <blockquote>« Notre prestataire annonçait trois jours de travail. Transvase l'a fait en un après-midi, et surtout il a écarté 2 100 adresses mortes que nous aurions envoyées sans le savoir. »</blockquote>
-        <p class="who">Responsable CRM · distributeur de matériel médical, 38 000 contacts<br>Migration Mailchimp → Brevo, mars 2026</p>
+        <blockquote>"Our agency had quoted three days of work. Transvase did it in one afternoon — and it caught 2,100 dead addresses we would have mailed without knowing it."</blockquote>
+        <p class="who">CRM manager · medical equipment distributor, 38,000 contacts<br>Mailchimp → Brevo migration, March 2026</p>
       </div>
       <div class="stats">
-        <div class="stat"><div class="n">0,4 %</div><div class="l">Taux de rebond moyen du premier envoi après un import Transvase, contre 6,1 % avant.</div></div>
-        <div class="stat"><div class="n">1 h 40</div><div class="l">Temps médian d'une migration complète, de la dépose du fichier au rapport final.</div></div>
-        <div class="stat"><div class="n">11,3 %</div><div class="l">Part des contacts écartés en moyenne — autant d'envois inutiles que vous ne payez plus.</div></div>
+        <div class="stat"><div class="n">0.4%</div><div class="l">Average bounce rate on the first send after a Transvase import, versus 6.1% before.</div></div>
+        <div class="stat"><div class="n">1h 40m</div><div class="l">Median time for a full migration, from dropping the file in to the final report.</div></div>
+        <div class="stat"><div class="n">11.3%</div><div class="l">Share of contacts dropped, on average — that many pointless sends you no longer pay for.</div></div>
       </div>
     </div>
   </div>
@@ -493,42 +493,42 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between}
 
 <section id="tarifs">
   <div class="wrap">
-    <p class="eyebrow">Tarifs</p>
-    <h2 class="big">Vous payez au contact importé, pas à l'abonnement dormant</h2>
-    <p class="sub">Les contacts écartés par la vérification ne vous sont jamais facturés.</p>
+    <p class="eyebrow">Pricing</p>
+    <h2 class="big">You pay per contact imported, not for a subscription that sits idle</h2>
+    <p class="sub">You are never billed for contacts that verification drops.</p>
     <div class="plans">
       <div class="plan">
-        <h3>Découverte</h3>
-        <div class="p">0 €<small>500 contacts, une fois</small></div>
+        <h3>Starter</h3>
+        <div class="p">€0<small>500 contacts, one time</small></div>
         <ul>
-          <li>Toutes les sources et destinations</li>
-          <li>Nettoyage et fusion des doublons</li>
-          <li>Rapport détaillé des écartés</li>
-          <li>Sans carte bancaire pour l'offre Découverte</li>
+          <li>Every source and every destination</li>
+          <li>List cleanup and duplicate merging</li>
+          <li>Full report on what was dropped</li>
+          <li>No credit card on the Starter plan</li>
         </ul>
-        <a href="#essai" class="btn ghost">Commencer maintenant</a>
+        <a href="#essai" class="btn ghost">Import 500 contacts free</a>
       </div>
       <div class="plan hi">
         <h3>Migration</h3>
-        <div class="p">49 €<small>HT · par tranche de 10 000 contacts</small></div>
+        <div class="p">€49<small>excl. VAT · per 10,000 contacts<br>Charged in EUR; your bank may apply a currency conversion fee.</small></div>
         <ul>
-          <li>Vérification serveur de chaque adresse</li>
-          <li>Annulation possible pendant 7 jours</li>
-          <li>Conservation de l'opt-in et des étiquettes</li>
-          <li>Assistance par e-mail sous 4 h ouvrées</li>
+          <li>Server-side check on every address</li>
+          <li>Undo available for seven days</li>
+          <li>Opt-in and tags carried over</li>
+          <li>Email support within 4 business hours</li>
         </ul>
-        <button type="button" class="btn flow" data-plan="migration">Lancer ma migration</button>
+        <button type="button" class="btn flow" data-plan="migration">Start my migration</button>
       </div>
       <div class="plan">
-        <h3>Flux continu</h3>
-        <div class="p">79 €<small>HT · premier mois, paiement unique<br>Pas d'abonnement, pas de reconduction : aucun prélèvement suivant.</small></div>
+        <h3>Continuous</h3>
+        <div class="p">€79<small>excl. VAT · first month, one-off payment<br>No subscription and no auto-renewal: nothing is charged after it.<br>Charged in EUR; your bank may apply a currency conversion fee.</small></div>
         <ul>
-          <li>Imports programmés chaque nuit</li>
-          <li>Google Sheets, URL, API et webhook</li>
-          <li>Alerte si la qualité d'un fichier chute</li>
-          <li>Plusieurs utilisateurs et espaces clients</li>
+          <li>Imports scheduled every night</li>
+          <li>Google Sheets, URL, API and webhook</li>
+          <li>An alert when a file's quality drops</li>
+          <li>Multiple users and client workspaces</li>
         </ul>
-        <button type="button" class="btn ghost" data-plan="flow_first_month">Payer le premier mois</button>
+        <button type="button" class="btn ghost" data-plan="flow_first_month">Pay for the first month</button>
       </div>
     </div>
   </div>
@@ -536,28 +536,28 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between}
 
 <section id="questions">
   <div class="wrap">
-    <p class="eyebrow">Questions fréquentes</p>
-    <h2 class="big">Ce qu'on nous demande avant de confier un fichier</h2>
+    <p class="eyebrow">Common questions</p>
+    <h2 class="big">What people ask us before handing over a file</h2>
     <div class="faq">
       <details open>
-        <summary>Que deviennent mes fichiers ?</summary>
-        <p>Ils sont chiffrés à la réception, conservés sur des serveurs situés en France, et supprimés automatiquement 72 heures après la fin de l'import. Vous pouvez aussi les effacer immédiatement depuis l'interface. Nous n'utilisons jamais vos contacts pour autre chose que votre import.</p>
+        <summary>What happens to my files?</summary>
+        <p>They are encrypted on arrival, kept on servers located in France, and deleted automatically 72 hours after the import ends. You can also delete them yourself at any time from the app. We never use your contacts for anything other than your import.</p>
       </details>
       <details>
-        <summary>Et si Transvase se trompe dans la correspondance des colonnes ?</summary>
-        <p>Rien n'est envoyé avant votre validation. L'écran de vérification affiche les cinq premières lignes telles qu'elles arriveront à destination, et chaque correspondance se change dans une liste déroulante. Si vous vous en apercevez après coup, l'annulation sur sept jours remet la base dans son état d'origine.</p>
+        <summary>What if Transvase gets the column mapping wrong?</summary>
+        <p>Nothing is imported until you approve it. The review screen shows the first five rows exactly as they will arrive at the destination, and every mapping can be changed from a drop-down. If you only notice afterwards, the seven-day undo puts the list back the way it was.</p>
       </details>
       <details>
-        <summary>Ma plateforme n'est pas dans la liste.</summary>
-        <p>Toute plateforme acceptant un import CSV ou disposant d'une API fonctionne : Transvase produit un fichier au format exact attendu par la destination, ou l'envoie directement par webhook. Écrivez-nous le nom de l'outil, nous vous confirmons sous 24 heures.</p>
+        <summary>My platform is not on the list.</summary>
+        <p>Any platform that accepts a CSV import or has an API works: Transvase produces a file in the exact format the destination expects, or sends the contacts straight over by webhook. Send us the name of the tool and we will confirm within 24 hours.</p>
       </details>
       <details>
-        <summary>Suis-je encore en règle avec le RGPD après un import ?</summary>
-        <p>La date et l'origine du consentement sont transportées avec chaque contact quand elles existent dans votre fichier. Quand elles manquent, Transvase le signale explicitement plutôt que d'inventer une date — c'est à vous de décider si ces contacts entrent dans la base.</p>
+        <summary>Am I still GDPR-compliant after an import?</summary>
+        <p>The date and the source of consent travel with each contact whenever your file has them. When they are missing, Transvase says so plainly rather than inventing a date — it is your call whether those contacts go into the list.</p>
       </details>
       <details>
-        <summary>Combien de temps pour une base de 50 000 contacts ?</summary>
-        <p>La lecture et le nettoyage prennent une dizaine de minutes. La vérification des adresses auprès des serveurs destinataires, qui est l'étape lente, tourne autour d'une heure trente pour 50 000 adresses. Vous recevez un e-mail quand le rapport est prêt.</p>
+        <summary>How long does a list of 50,000 contacts take?</summary>
+        <p>Reading and cleaning take about ten minutes. Verifying the addresses against the receiving servers, which is the slow step, runs around an hour and a half for 50,000 addresses. You get an email when the report is ready.</p>
       </details>
     </div>
   </div>
@@ -566,55 +566,55 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between}
 <section id="essai" class="final">
   <div class="wrap">
     <div>
-      <p class="eyebrow">Essai gratuit</p>
-      <h2 class="big">Testez sur vos 500 premiers contacts. Vous verrez ce qui cloche dans votre base.</h2>
-      <p class="sub">Déposez un extrait de votre fichier : vous recevez le rapport de qualité complet avant même de créer un compte payant.</p>
+      <p class="eyebrow">Free trial</p>
+      <h2 class="big">Try it on your first 500 contacts. You'll see exactly what is wrong with your list.</h2>
+      <p class="sub">Drop in a sample of your file: you get the full quality report before you even create a paid account.</p>
       <div class="checks">
-        <div>Le nombre exact d'adresses mortes que contient votre base</div>
-        <div>Les doublons et les fautes de domaine détectés, listés</div>
-        <div>La correspondance de colonnes déjà préparée pour votre plateforme</div>
-        <div>Aucune carte bancaire pour l'offre Découverte, aucun envoi déclenché, fichier supprimé sous 72 h</div>
+        <div>The exact number of dead addresses in your list</div>
+        <div>Every duplicate and domain typo we find, listed one by one</div>
+        <div>The column mapping already prepared for your platform</div>
+        <div>No credit card on the Starter plan, nothing sent to your contacts, file deleted within 72 hours</div>
       </div>
     </div>
 
     <form data-lead>
-      <label>E-mail professionnel
-        <input type="email" name="email" autocomplete="email" placeholder="prenom@entreprise.fr" required>
+      <label>Work email
+        <input type="email" name="email" autocomplete="email" placeholder="name@company.com" required>
       </label>
-      <label>D'où viennent vos contacts ?
+      <label>Where are your contacts coming from?
         <select name="source" autocomplete="off" required>
-          <option value="">Choisir une source…</option>
-          <option>Fichier CSV ou Excel</option>
+          <option value="">Choose a source…</option>
+          <option>CSV or Excel file</option>
           <option>Mailchimp</option>
-          <option>Outlook ou Gmail</option>
+          <option>Outlook or Gmail</option>
           <option>Google Sheets</option>
-          <option>Un CRM (HubSpot, Odoo, autre)</option>
-          <option>Je ne sais pas encore</option>
+          <option>A CRM (HubSpot, Odoo, other)</option>
+          <option>Not sure yet</option>
         </select>
       </label>
-      <label>Vers quelle plateforme ?
+      <label>Which platform are they going to?
         <select name="destination" autocomplete="off" required>
-          <option value="">Choisir une destination…</option>
+          <option value="">Choose a destination…</option>
           <option>Brevo</option>
           <option>Mailchimp</option>
           <option>Klaviyo</option>
           <option>HubSpot</option>
-          <option>Autre / à confirmer</option>
+          <option>Other / not decided yet</option>
         </select>
       </label>
-      <label>Combien de contacts, environ ?
-        <input type="text" name="volume" autocomplete="off" placeholder="Ex. : 12 000" inputmode="numeric">
+      <label>Roughly how many contacts?
+        <input type="text" name="volume" autocomplete="off" placeholder="e.g. 12,000" inputmode="numeric">
       </label>
-      <button class="btn flow" type="submit">Lancer mon import de test</button>
-      <p class="hint">Accès immédiat. Vos données ne sont ni revendues ni utilisées pour des envois.</p>
+      <button class="btn flow" type="submit">Run my test import</button>
+      <p class="hint">Immediate access. Your data is never resold and never used to send anything.</p>
     </form>
   </div>
 </section>
 
 <footer>
   <div class="wrap">
-    <span>Transvase — import et migration de contacts e-mail</span>
-    <span>Exemple de page de vente · rédaction et conception : Tony</span>
+    <span>Transvase — email contact import and migration</span>
+    <span>Sales page sample · copy and design: Tony</span>
   </div>
 </footer>
 <script defer src="/checkout.js"></script>

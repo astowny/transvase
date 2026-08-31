@@ -1,3 +1,10 @@
+# Two containers per site: `transvase` serves the static pages and proxies
+# /api/, `api` runs the Bun checkout/webhook service.
+#
+# The compose SERVICE name of the second container is `api` in BOTH repos, so
+# that nginx.conf stays byte-identical across them (it proxies to the DNS name
+# `api`). The container_name stays globally unique because every container on
+# this host shares one namespace.
 services:
   transvase:
     build:
@@ -7,6 +14,7 @@ services:
     restart: unless-stopped
     networks:
       - dokploy-network
+      - site
     labels:
       - traefik.enable=true
       - traefik.docker.network=dokploy-network
@@ -19,7 +27,68 @@ services:
       - traefik.http.routers.transvase-secure.tls.certresolver=letsencrypt
       - traefik.http.routers.transvase-secure.service=transvase
       - traefik.http.services.transvase.loadbalancer.server.port=80
+    # /etc/docker/daemon.json on this host configures no log rotation and
+    # /var/lib/docker/containers is already large, so every service sets its
+    # own. Without this a chatty container fills the disk silently.
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  api:
+    build:
+      context: ./api
+    image: transvase-api:latest
+    container_name: transvase-api
+    restart: unless-stopped
+    # Only `site`. Never dokploy-network: that network carries 17 containers
+    # (verified 31/08/2026, `docker network inspect dokploy-network`), among
+    # them two Coder containers that run arbitrary user code, n8n, Nextcloud
+    # and the Dokploy control plane. Any of them can resolve `transvase-api`
+    # and POST to :3000, bypassing every nginx-level control at once -- the
+    # limit_req zone, the body caps, the /api/ path prefix. "No Traefik labels"
+    # is a routing property, not an isolation property.
+    networks:
+      - site
+    # No `ports:`. The api is reached only through nginx, which is the only
+    # other member of the `site` network.
+    environment:
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY}
+      STRIPE_PUBLISHABLE_KEY: ${STRIPE_PUBLISHABLE_KEY}
+      STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET}
+      RESEND_API_KEY: ${RESEND_API_KEY}
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
 
 networks:
   dokploy-network:
     external: true
+
+  # Project-local bridge, created and destroyed with this compose project and
+  # joinable only by its two services. It is NOT declared `internal: true`,
+  # and that is a deliberate, named departure from the spec's
+  # `api-on-a-project-internal-network-only`.
+  #
+  # Reason, from the Docker documentation for `--internal`: "Containers on an
+  # internal network may communicate between each other, but not with any
+  # other network, as no default route is configured and firewall rules are
+  # set up to drop all traffic to or from other networks." The api's entire
+  # job is to call https://api.stripe.com and https://api.resend.com. On an
+  # internal-only network it has no route to either: every checkout would fail
+  # and no notification would ever be sent.
+  #
+  # What the spec was actually buying -- isolation from the 17 containers on
+  # dokploy-network -- this network already provides, because they are not on
+  # it and Docker drops traffic between separate bridges. The one property
+  # `internal: true` would add on top is blocking egress, and the same Docker
+  # page notes that even then "the host may communicate with any container IP
+  # directly", so it does not close the local-host path either.
+  #
+  # If outbound egress ever has to be denied, the replacement is an allowlisting
+  # forward proxy for api.stripe.com and api.resend.com, not this flag.
+  site:
+    driver: bridge

@@ -1,0 +1,19 @@
+# Build context for the WEB image only. The api builds from ./api and reads
+# api/.dockerignore instead -- Docker uses the ignore file at the root of the
+# context it is given, so this one does not apply there.
+#
+# The Dockerfile copies its four files by name, so nothing below is strictly
+# load-bearing. It is here because a secret must never enter a build context
+# at all: anything sent to the daemon can end up in a layer or a cache mount
+# after a one-line edit to the Dockerfile.
+.env
+.env.*
+.git
+.gitignore
+.dockerignore
+README.md
+LICENSE
+docker-compose.yml
+
+# The api tree, including any local node_modules, is not part of the web image.
+api

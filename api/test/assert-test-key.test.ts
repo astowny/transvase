@@ -2,22 +2,36 @@
 // test key. See spec decision `refuse-to-boot-on-a-non-test-key`.
 import { describe, expect, test } from "bun:test";
 import { isTestSecretKey, readSecrets, MissingEnvError, last4 } from "../src/config.ts";
+import {
+  HYPHENATED_SECRET_KEY,
+  LIVE_KEY_CONTAINING_TEST_MARKER,
+  LIVE_PUBLISHABLE_KEY,
+  LIVE_RESTRICTED_KEY,
+  LIVE_SECRET_KEY,
+  SECRET_KEY_PREFIX_ONLY,
+  SHORT_SECRET_KEY,
+  TEST_PUBLISHABLE_KEY,
+  TEST_RESEND_KEY,
+  TEST_RESTRICTED_KEY,
+  TEST_SECRET_KEY,
+  TEST_WEBHOOK_SECRET,
+} from "./fixtures.ts";
 
 describe("isTestSecretKey", () => {
   test("accepts a well-formed sk_test_ key", () => {
-    expect(isTestSecretKey("sk_test_51Abcdefghijklmnop")).toBe(true);
+    expect(isTestSecretKey(TEST_SECRET_KEY)).toBe(true);
   });
 
   test("accepts a well-formed restricted rk_test_ key", () => {
-    expect(isTestSecretKey("rk_test_51Abcdefghijklmnop")).toBe(true);
+    expect(isTestSecretKey(TEST_RESTRICTED_KEY)).toBe(true);
   });
 
   test("rejects a live secret key", () => {
-    expect(isTestSecretKey("sk_live_51Abcdefghijklmnop")).toBe(false);
+    expect(isTestSecretKey(LIVE_SECRET_KEY)).toBe(false);
   });
 
   test("rejects a live restricted key", () => {
-    expect(isTestSecretKey("rk_live_51Abcdefghijklmnop")).toBe(false);
+    expect(isTestSecretKey(LIVE_RESTRICTED_KEY)).toBe(false);
   });
 
   test("rejects an empty string", () => {
@@ -25,40 +39,40 @@ describe("isTestSecretKey", () => {
   });
 
   test("rejects a prefix with no body", () => {
-    expect(isTestSecretKey("sk_test_")).toBe(false);
+    expect(isTestSecretKey(SECRET_KEY_PREFIX_ONLY)).toBe(false);
   });
 
   test("rejects a body shorter than eight characters", () => {
-    expect(isTestSecretKey("sk_test_abc")).toBe(false);
+    expect(isTestSecretKey(SHORT_SECRET_KEY)).toBe(false);
   });
 
   test("rejects a publishable key", () => {
-    expect(isTestSecretKey("pk_test_51Abcdefghijklmnop")).toBe(false);
+    expect(isTestSecretKey(TEST_PUBLISHABLE_KEY)).toBe(false);
   });
 
   test("rejects a live key that merely contains the test marker", () => {
-    expect(isTestSecretKey("sk_live_sk_test_abcdefgh")).toBe(false);
+    expect(isTestSecretKey(LIVE_KEY_CONTAINING_TEST_MARKER)).toBe(false);
   });
 
   test("rejects a key with a leading space", () => {
-    expect(isTestSecretKey(" sk_test_51Abcdefghijklmnop")).toBe(false);
+    expect(isTestSecretKey(` ${TEST_SECRET_KEY}`)).toBe(false);
   });
 
   test("rejects a key with a trailing newline", () => {
-    expect(isTestSecretKey("sk_test_51Abcdefghijklmnop\n")).toBe(false);
+    expect(isTestSecretKey(`${TEST_SECRET_KEY}\n`)).toBe(false);
   });
 
   test("rejects a key with a hyphen in the body", () => {
-    expect(isTestSecretKey("sk_test_51Abcdef-hijklmnop")).toBe(false);
+    expect(isTestSecretKey(HYPHENATED_SECRET_KEY)).toBe(false);
   });
 });
 
 describe("readSecrets", () => {
   const complete = {
-    STRIPE_SECRET_KEY: "sk_test_51Abcdefghijklmnop",
-    STRIPE_PUBLISHABLE_KEY: "pk_test_51Abcdefghijklmnop",
-    STRIPE_WEBHOOK_SECRET: "whsec_abcdefghijklmnop",
-    RESEND_API_KEY: "re_abcdefghijklmnop",
+    STRIPE_SECRET_KEY: TEST_SECRET_KEY,
+    STRIPE_PUBLISHABLE_KEY: TEST_PUBLISHABLE_KEY,
+    STRIPE_WEBHOOK_SECRET: TEST_WEBHOOK_SECRET,
+    RESEND_API_KEY: TEST_RESEND_KEY,
   };
 
   test("returns the four secrets when all are present", () => {
@@ -87,13 +101,13 @@ describe("readSecrets", () => {
   });
 
   test("rejects a non-test Stripe secret key", () => {
-    expect(() => readSecrets({ ...complete, STRIPE_SECRET_KEY: "sk_live_51Abcdefghijklmnop" })).toThrow(
+    expect(() => readSecrets({ ...complete, STRIPE_SECRET_KEY: LIVE_SECRET_KEY })).toThrow(
       /not a test key/,
     );
   });
 
   test("rejects a publishable key that is not a test key", () => {
-    expect(() => readSecrets({ ...complete, STRIPE_PUBLISHABLE_KEY: "pk_live_51Abcdefghijklmnop" })).toThrow(
+    expect(() => readSecrets({ ...complete, STRIPE_PUBLISHABLE_KEY: LIVE_PUBLISHABLE_KEY })).toThrow(
       /not a test key/,
     );
   });
@@ -101,7 +115,7 @@ describe("readSecrets", () => {
 
 describe("last4", () => {
   test("returns only the final four characters", () => {
-    expect(last4("sk_test_51Abcdefghijklmnop")).toBe("mnop");
+    expect(last4("an-arbitrary-value-mnop")).toBe("mnop");
   });
 
   test("never returns more characters than the input holds", () => {

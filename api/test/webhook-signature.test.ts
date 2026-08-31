@@ -4,8 +4,9 @@
 // node:crypto's timingSafeEqual from throwing on a truncated hex signature.
 import { describe, expect, test } from "bun:test";
 import { computeSignature, parseEvent, parseSignatureHeader, verifySignature } from "../src/webhook.ts";
+import { OTHER_WEBHOOK_SECRET, TEST_WEBHOOK_SECRET } from "./fixtures.ts";
 
-const SECRET = "whsec_TestSecretForUnitTestsOnly";
+const SECRET = TEST_WEBHOOK_SECRET;
 const NOW = 1_756_000_000;
 const RAW = new TextEncoder().encode('{"id":"evt_1","type":"payment_intent.succeeded"}');
 
@@ -60,7 +61,7 @@ describe("verifySignature", () => {
   });
 
   test("rejects a payload signed with a different secret", () => {
-    const other = `v1=${computeSignature(NOW, RAW, "whsec_SomeOtherSecretEntirely")}`;
+    const other = `v1=${computeSignature(NOW, RAW, OTHER_WEBHOOK_SECRET)}`;
     expect(verifySignature(RAW, header(NOW, [other]), SECRET, NOW)).toBe(false);
   });
 

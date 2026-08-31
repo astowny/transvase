@@ -1,12 +1,10 @@
 services:
   transvase:
-    image: nginx:alpine
+    build:
+      context: .
+    image: transvase:latest
     container_name: transvase
     restart: unless-stopped
-    volumes:
-      # Relative to this file, i.e. the repository Dokploy clones.
-      - ./:/usr/share/nginx/html:ro
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
     networks:
       - dokploy-network
     labels:
